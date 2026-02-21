@@ -1,0 +1,12 @@
+{
+  "type": "hbm:test_machine",
+  "input": {
+    "item": "minecraft:iron_ingot"
+  },
+  "output": {
+    "item": "minecraft:gold_ingot",
+    "count": 1
+  },
+  "energy": 0,
+  "time": 10
+}

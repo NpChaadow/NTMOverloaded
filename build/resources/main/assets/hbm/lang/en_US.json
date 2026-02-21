@@ -1,6 +1,9 @@
 {
   "item.hbm.test_item": "Test Item",
   "block.hbm.test_block": "Test Block",
+  "block.hbm.test_machine": "Test Machine",
+  "block.hbm.creative_generator":  "Creative Generator",
+  "block.hbm.cable":  "Cable",
   "tab.hbm.blocks": "HBM Blocks",
   "tab.hbm.machines": "HBM Machines",
   "tab.hbm.parts": "HBM Parts",
