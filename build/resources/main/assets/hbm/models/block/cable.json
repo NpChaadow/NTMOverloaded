@@ -1,0 +1,16 @@
+{
+  "loader": "hbm:obj_loader",
+  "model": "hbm:models/block/cable_neo.obj",
+  "texture": "hbm:block/cable_neo",
+
+  "always_visible": ["Core"],
+
+  "group_conditions": {
+    "north": { "true": "posZ" },
+    "south": { "true": "negZ" },
+    "east":  { "true": "posX"  },
+    "west":  { "true": "negX"  },
+    "up":    { "true": "posY"    },
+    "down":  { "true": "negY"  }
+  }
+}
