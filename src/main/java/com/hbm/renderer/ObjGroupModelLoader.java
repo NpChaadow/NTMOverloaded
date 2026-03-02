@@ -2,14 +2,12 @@ package com.hbm.renderer;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Transformation;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.block.model.ItemTransform;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.*;
 import net.minecraft.core.Direction;
@@ -17,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraftforge.client.ChunkRenderTypeSet;
 import net.minecraftforge.client.model.IDynamicBakedModel;
 import net.minecraftforge.client.model.data.ModelData;
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
@@ -35,92 +34,94 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * OBJ Model Loader with per-group dynamic rendering — designed for cables, pipes, and
- * any block whose visible parts depend on neighboring blocks or BlockState properties.
+ * OBJ Model Loader with per-group dynamic rendering and optional overlay tinting.
  *
- * ── HOW IT WORKS ──────────────────────────────────────────────────────────────────────
+ * ── MODEL JSON ────────────────────────────────────────────────────────────────────────
  *
- *  1. Your .obj file uses named groups (g directive) to separate mesh parts:
+ *   {
+ *     "loader": "hbm:obj_group_loader",
+ *     "model":  "hbm:models/block/cable_neo.obj",
+ *     "texture": "hbm:block/cable_neo",
  *
- *       g core          ← always rendered
- *       ...vertices...
- *       g arm_north     ← only rendered when block state "north=true"
- *       ...vertices...
- *       g arm_south
- *       ...
+ *     "textures": {
+ *       "overlay": "hbm:block/cable_overlay"
+ *     },
  *
- *  2. Your model JSON maps BlockState property values → group names:
+ *     "always_visible": ["Core"],
  *
- *       {
- *         "loader": "yourmodid:obj_group_loader",
- *         "model":  "yourmodid:models/block/cable.obj",
- *         "texture": "yourmodid:block/cable",
- *         "always_visible": ["core"],
- *         "group_conditions": {
- *           "north": { "true": "arm_north" },
- *           "south": { "true": "arm_south" },
- *           "east":  { "true": "arm_east"  },
- *           "west":  { "true": "arm_west"  },
- *           "up":    { "true": "arm_up"    },
- *           "down":  { "true": "arm_down"  }
- *         }
- *       }
+ *     "group_conditions": {
+ *       "north": { "true": "posZ" },
+ *       "south": { "true": "negZ" },
+ *       "east":  { "true": "posX" },
+ *       "west":  { "true": "negX" },
+ *       "up":    { "true": "posY" },
+ *       "down":  { "true": "negY" }
+ *     },
  *
- *  3. Your block must have matching Boolean BlockState properties
- *     (north, south, east, west, up, down) as BooleanProperty fields.
- *
- * ── REGISTRATION ──────────────────────────────────────────────────────────────────────
- *
- *   @SubscribeEvent
- *   public static void onRegisterGeometryLoaders(ModelEvent.RegisterGeometryLoaders event) {
- *       event.register("obj_group_loader", ObjGroupModelLoader.INSTANCE);
+ *     "display": {
+ *       "thirdperson_righthand": { "rotation": [75, 45, 0], "translation": [0, 2.5, 0], "scale": [0.375, 0.375, 0.375] },
+ *       "thirdperson_lefthand":  { "rotation": [75, 45, 0], "translation": [0, 2.5, 0], "scale": [0.375, 0.375, 0.375] },
+ *       "firstperson_righthand": { "rotation": [0, 45, 0],  "translation": [0, 0, 0],   "scale": [0.4, 0.4, 0.4] },
+ *       "firstperson_lefthand":  { "rotation": [0, 225, 0], "translation": [0, 0, 0],   "scale": [0.4, 0.4, 0.4] },
+ *       "ground":                { "translation": [0, 3, 0],                             "scale": [0.25, 0.25, 0.25] },
+ *       "gui":                   { "rotation": [30, 225, 0],                             "scale": [0.625, 0.625, 0.625] },
+ *       "fixed":                 {                                                        "scale": [0.5, 0.5, 0.5] }
+ *     }
  *   }
  *
- * ── OBJ FILE TIPS ─────────────────────────────────────────────────────────────────────
- *   - Group names must exactly match the values in "always_visible" and "group_conditions".
- *   - Faces can be triangles or quads. Polygons are fan-triangulated into quads.
- *   - UVs are optional but recommended for textured rendering.
- *   - Model space: 0.0–1.0 maps to one full block (Minecraft's coordinate space).
+ * ── KEY POINTS ────────────────────────────────────────────────────────────────────────
+ *   - "texture" (singular) = base texture, handled exactly as before (no change).
+ *   - "textures" block = Forge auto-stitches these into the atlas.
+ *     "overlay" key inside it is retrieved via context.getMaterial("overlay") in bake().
+ *   - Overlay quads use tintIndex=0, multiplied by your BlockColor/ItemColor handler.
+ *   - Base quads use tintIndex=-1, never tinted.
+ *   - Omitting "textures"/"overlay" from the JSON disables overlay entirely.
  */
 public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.ObjGroupGeometry> {
 
     public static final ObjGroupModelLoader INSTANCE = new ObjGroupModelLoader();
 
-    private ResourceLocation parseResourceLocation(String full) {
-        return ResourceLocation.parse(full);
-    }
+    // ─────────────────────────────────────────────────────────────────────────
+    // Loader — reads the model JSON
+    // ─────────────────────────────────────────────────────────────────────────
+
     @Override
     public ObjGroupGeometry read(JsonObject json, JsonDeserializationContext context) {
         System.out.println("[ObjGroupModelLoader] read() called! JSON: " + json);
-        ResourceLocation modelPath   = parseResourceLocation(json.get("model").getAsString());
-        ResourceLocation texturePath = json.has("texture")
-                ? parseResourceLocation(json.get("texture").getAsString())
-                : ResourceLocation.parse("missingno");
 
+        ResourceLocation modelPath = ResourceLocation.parse(json.get("model").getAsString());
+
+        // "texture" (singular) — base texture, same as before
+        ResourceLocation texturePath = json.has("texture")
+                ? ResourceLocation.parse(json.get("texture").getAsString())
+                : ResourceLocation.parse("minecraft:missingno");
+
+        // Item display transforms
         ItemTransforms transforms = ItemTransforms.NO_TRANSFORMS;
         if (json.has("display")) {
             transforms = context.deserialize(json.get("display"), ItemTransforms.class);
         }
 
-        // Parse always_visible list
+        // always_visible list
         List<String> alwaysVisible = new ArrayList<>();
         if (json.has("always_visible")) {
             json.getAsJsonArray("always_visible")
-                .forEach(e -> alwaysVisible.add(e.getAsString()));
+                    .forEach(e -> alwaysVisible.add(e.getAsString()));
         }
 
-        // Parse group_conditions: { "propertyName": { "value": "groupName", ... }, ... }
-        // e.g. { "north": { "true": "arm_north" } }
+        // group_conditions map
         Map<String, Map<String, String>> groupConditions = new LinkedHashMap<>();
         if (json.has("group_conditions")) {
-            JsonObject conditions = json.getAsJsonObject("group_conditions");
-            conditions.entrySet().forEach(prop -> {
+            json.getAsJsonObject("group_conditions").entrySet().forEach(prop -> {
                 Map<String, String> valueMap = new LinkedHashMap<>();
                 prop.getValue().getAsJsonObject().entrySet()
-                    .forEach(val -> valueMap.put(val.getKey(), val.getValue().getAsString()));
+                        .forEach(val -> valueMap.put(val.getKey(), val.getValue().getAsString()));
                 groupConditions.put(prop.getKey(), valueMap);
             });
         }
+
+        // NOTE: "textures": { "overlay": "..." } in the JSON is read automatically by Forge.
+        // We do NOT parse it here. We retrieve it in bake() via context.getMaterial("overlay").
 
         return new ObjGroupGeometry(modelPath, texturePath, alwaysVisible, groupConditions, transforms);
     }
@@ -142,11 +143,11 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
                                 List<String> alwaysVisible,
                                 Map<String, Map<String, String>> groupConditions,
                                 ItemTransforms transforms) {
-            this.modelLocation  = modelLocation;
+            this.modelLocation   = modelLocation;
             this.textureLocation = textureLocation;
-            this.alwaysVisible  = alwaysVisible;
+            this.alwaysVisible   = alwaysVisible;
             this.groupConditions = groupConditions;
-            this.transforms = transforms;
+            this.transforms      = transforms;
         }
 
         @Override
@@ -156,26 +157,53 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
                                ModelState modelState,
                                ItemOverrides overrides,
                                ResourceLocation modelLocation) {
+
             System.out.println("[ObjGroupModelLoader] bake() called for: " + this.modelLocation);
 
-            Material material = new Material(
-                    net.minecraft.client.renderer.texture.TextureAtlas.LOCATION_BLOCKS,
-                    this.textureLocation);
-            TextureAtlasSprite sprite = spriteGetter.apply(material);
+            // Base sprite — same approach as before, known to work
+            TextureAtlasSprite sprite = spriteGetter.apply(
+                    new Material(TextureAtlas.LOCATION_BLOCKS, this.textureLocation));
 
-            // group name → list of BakedQuads
-            Map<String, List<BakedQuad>> groupQuads = new LinkedHashMap<>();
+            // Overlay sprite — retrieved via context since Forge stitched it from "textures" block
+            // Returns null if "overlay" key was not present in the JSON "textures" block
+            TextureAtlasSprite overlaySprite = null;
+            if (context.hasMaterial("overlay")) {
+                overlaySprite = spriteGetter.apply(context.getMaterial("overlay"));
+                System.out.println("[ObjGroupModelLoader] Overlay sprite found: " + overlaySprite.toString());
+            } else {
+                System.out.println("[ObjGroupModelLoader] No overlay defined, skipping.");
+            }
+
+            Map<String, List<BakedQuad>> groupQuads        = new LinkedHashMap<>();
+            Map<String, List<BakedQuad>> overlayGroupQuads = new LinkedHashMap<>();
 
             try {
                 var resource = net.minecraft.client.Minecraft.getInstance()
                         .getResourceManager()
                         .getResource(this.modelLocation);
+
                 System.out.println("[ObjGroupModelLoader] Resource present: " + resource.isPresent());
+
                 if (resource.isPresent()) {
+                    // Buffer lines — needed to parse twice if overlay is present
+                    List<String> lines = new ArrayList<>();
                     try (BufferedReader reader = new BufferedReader(
                             new InputStreamReader(resource.get().open()))) {
-                        parseObjIntoGroups(reader, sprite, modelState.getRotation(), groupQuads);
+                        String line;
+                        while ((line = reader.readLine()) != null) lines.add(line);
                     }
+
+                    // Base pass — tintIndex -1 (never tinted)
+                    parseObjIntoGroups(lines, sprite, modelState.getRotation(), groupQuads, -1);
+
+                    // Overlay pass — tintIndex 0 (multiplied by BlockColor/ItemColor)
+                    if (overlaySprite != null) {
+                        parseObjIntoGroups(lines, overlaySprite, modelState.getRotation(), overlayGroupQuads, 0);
+                    }
+
+                    System.out.println("[ObjGroupModelLoader] Groups found: " + groupQuads.keySet());
+                    groupQuads.forEach((k, v) ->
+                            System.out.println("  group '" + k + "' -> " + v.size() + " quads"));
                 }
             } catch (IOException e) {
                 System.err.println("[ObjGroupModelLoader] Failed to load OBJ: " + this.modelLocation);
@@ -183,33 +211,33 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
             }
 
             return new ObjGroupBakedModel(
-                    groupQuads, sprite,
+                    groupQuads, overlayGroupQuads, sprite,
                     alwaysVisible, groupConditions,
                     context.useAmbientOcclusion(), context.isGui3d(), context.useBlockLight(),
-                    overrides,transforms);
+                    overrides, transforms);
         }
 
+
+
         /**
-         * Parse the OBJ file, placing each face into the group it belongs to.
-         * Groups switch when a "g" or "o" line is encountered.
+         * Parse OBJ lines into per-group BakedQuad lists.
+         * tintIndex: -1 = base (never tinted), 0 = overlay (multiplied by color handler).
          */
-        private void parseObjIntoGroups(BufferedReader reader,
+        private void parseObjIntoGroups(List<String> lines,
                                         TextureAtlasSprite sprite,
                                         Transformation transform,
-                                        Map<String, List<BakedQuad>> out) throws IOException {
+                                        Map<String, List<BakedQuad>> out,
+                                        int tintIndex) {
             List<Vector3f> positions = new ArrayList<>();
             List<Vector2f> uvs       = new ArrayList<>();
             List<Vector3f> normals   = new ArrayList<>();
 
-            // Raw faces stored per group before baking
             String currentGroup = "default";
-            // group → list of face vertex index arrays
             Map<String, List<int[][]>> rawFaces = new LinkedHashMap<>();
             rawFaces.put(currentGroup, new ArrayList<>());
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.trim();
+            for (String rawLine : lines) {
+                String line = rawLine.trim();
                 if (line.isEmpty() || line.startsWith("#")) continue;
 
                 String[] parts = line.split("\\s+");
@@ -218,19 +246,22 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
                             Float.parseFloat(parts[1]),
                             Float.parseFloat(parts[2]),
                             Float.parseFloat(parts[3])));
+
                     case "vt" -> uvs.add(new Vector2f(
                             Float.parseFloat(parts[1]),
-                            1.0f - Float.parseFloat(parts[2]))); // flip V
+                            1.0f - Float.parseFloat(parts[2]))); // flip V for OpenGL
+
                     case "vn" -> normals.add(new Vector3f(
                             Float.parseFloat(parts[1]),
                             Float.parseFloat(parts[2]),
                             Float.parseFloat(parts[3])));
+
                     case "g", "o" -> {
-                        // Switch active group (use first token after directive)
                         currentGroup = parts.length > 1 ? parts[1] : "default";
                         System.out.println("[ObjGroupModelLoader] Switched to group: " + currentGroup);
                         rawFaces.putIfAbsent(currentGroup, new ArrayList<>());
                     }
+
                     case "f" -> {
                         int vertCount = parts.length - 1;
                         int[][] faceVerts = new int[vertCount][3];
@@ -242,47 +273,47 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
                             faceVerts[i][2] = (idx.length > 2 && !idx[2].isEmpty())
                                     ? Integer.parseInt(idx[2]) - 1 : -1;
                         }
-                        // Emit as quads (fan triangulation for n>4)
-                        List<int[][]> quadsForGroup = rawFaces.get(currentGroup);
+
+                        List<int[][]> groupFaces = rawFaces.get(currentGroup);
                         if (vertCount == 4) {
-                            quadsForGroup.add(faceVerts);
+                            groupFaces.add(faceVerts);
                         } else if (vertCount == 3) {
-                            quadsForGroup.add(new int[][]{
-                                faceVerts[0], faceVerts[1], faceVerts[2], faceVerts[2]});
+                            groupFaces.add(new int[][]{
+                                    faceVerts[0], faceVerts[1], faceVerts[2], faceVerts[2]});
                         } else if (vertCount > 4) {
                             for (int i = 1; i < vertCount - 1; i++) {
                                 int last = Math.min(i + 1, vertCount - 1);
-                                quadsForGroup.add(new int[][]{
-                                    faceVerts[0], faceVerts[i], faceVerts[last], faceVerts[last]});
+                                groupFaces.add(new int[][]{
+                                        faceVerts[0], faceVerts[i], faceVerts[last], faceVerts[last]});
                             }
                         }
                     }
                 }
             }
 
-            // Bake each group independently
             for (var entry : rawFaces.entrySet()) {
                 List<BakedQuad> baked = buildBakedQuads(
-                        entry.getValue(), positions, uvs, normals, sprite, transform);
+                        entry.getValue(), positions, uvs, normals, sprite, transform, tintIndex);
                 out.put(entry.getKey(), baked);
             }
         }
 
         private List<BakedQuad> buildBakedQuads(List<int[][]> faces,
-                                                 List<Vector3f> positions,
-                                                 List<Vector2f> uvs,
-                                                 List<Vector3f> normals,
-                                                 TextureAtlasSprite sprite,
-                                                 Transformation transform) {
+                                                List<Vector3f> positions,
+                                                List<Vector2f> uvs,
+                                                List<Vector3f> normals,
+                                                TextureAtlasSprite sprite,
+                                                Transformation transform,
+                                                int tintIndex) {
             List<BakedQuad> quads = new ArrayList<>();
             for (int[][] face : faces) {
                 int[] vertexData = new int[32];
+
                 for (int v = 0; v < 4; v++) {
                     int[] vert = face[v];
 
                     Vector3f pos = (vert[0] >= 0 && vert[0] < positions.size())
                             ? new Vector3f(positions.get(vert[0])) : new Vector3f(0, 0, 0);
-
 
                     Vector4f pos4 = new Vector4f(pos.x, pos.y, pos.z, 1.0f);
                     transform.getMatrix().transform(pos4);
@@ -322,7 +353,7 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
                             normals.get(face[0][2]).z);
                 }
 
-                quads.add(new BakedQuad(vertexData, -1, facing, sprite, true));
+                quads.add(new BakedQuad(vertexData, tintIndex, facing, sprite, true));
             }
             return quads;
         }
@@ -330,128 +361,119 @@ public class ObjGroupModelLoader implements IGeometryLoader<ObjGroupModelLoader.
         private int packNormal(Vector3f n) {
             n.normalize();
             return (clampByte((int)(n.x * 127)) & 0xFF)
-                 | ((clampByte((int)(n.y * 127)) & 0xFF) << 8)
-                 | ((clampByte((int)(n.z * 127)) & 0xFF) << 16);
+                    | ((clampByte((int)(n.y * 127)) & 0xFF) << 8)
+                    | ((clampByte((int)(n.z * 127)) & 0xFF) << 16);
         }
 
         private int clampByte(int v) { return Math.max(-128, Math.min(127, v)); }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // Baked Model — selects groups at render time based on BlockState
+    // Baked Model
     // ─────────────────────────────────────────────────────────────────────────
 
     public static class ObjGroupBakedModel implements IDynamicBakedModel {
 
-        /** All group quads, keyed by OBJ group name. */
         private final Map<String, List<BakedQuad>> groupQuads;
+        private final Map<String, List<BakedQuad>> overlayGroupQuads;
         private final TextureAtlasSprite particle;
-        private final ItemTransforms transforms;
-
-        /** Groups that are always included regardless of block state. */
         private final List<String> alwaysVisible;
-
-        /**
-         * Maps BlockState property name → (property value string → group name).
-         * e.g. "north" → { "true" → "arm_north" }
-         */
         private final Map<String, Map<String, String>> groupConditions;
-
         private final boolean ao, gui3d, sidelit;
         private final ItemOverrides overrides;
+        private final ItemTransforms transforms;
 
         public ObjGroupBakedModel(Map<String, List<BakedQuad>> groupQuads,
+                                  Map<String, List<BakedQuad>> overlayGroupQuads,
                                   TextureAtlasSprite particle,
                                   List<String> alwaysVisible,
                                   Map<String, Map<String, String>> groupConditions,
                                   boolean ao, boolean gui3d, boolean sidelit,
-                                  ItemOverrides overrides, ItemTransforms transforms) {
-            this.groupQuads      = groupQuads;
-            this.particle        = particle;
-            this.transforms = transforms;
-            this.alwaysVisible   = alwaysVisible;
-            this.groupConditions = groupConditions;
+                                  ItemOverrides overrides,
+                                  ItemTransforms transforms) {
+            this.groupQuads        = groupQuads;
+            this.overlayGroupQuads = overlayGroupQuads;
+            this.particle          = particle;
+            this.alwaysVisible     = alwaysVisible;
+            this.groupConditions   = groupConditions;
             this.ao      = ao;
             this.gui3d   = gui3d;
             this.sidelit = sidelit;
-            this.overrides = overrides;
-
+            this.overrides  = overrides;
+            this.transforms = transforms;
         }
 
-
-
-        /**
-         * Core rendering method — evaluates the BlockState to decide which groups to show.
-         *
-         * Called by Minecraft's chunk batcher on every block in the world.
-         * The result is cached per BlockState variant, so this is NOT called every frame.
-         */
         @Override
         public @NotNull List<BakedQuad> getQuads(@Nullable BlockState state,
                                                  @Nullable Direction side,
                                                  @NotNull RandomSource rand,
                                                  @NotNull ModelData modelData,
-                                                 @NotNull RenderType renderType){
+                                                 @Nullable RenderType renderType) {
+            if (side != null) return Collections.emptyList();
+
+            // Solid pass → base quads only
+            // Cutout pass → overlay quads only
+            // null renderType (item) → everything
+            boolean wantBase    = renderType == null || renderType == RenderType.solid();
+            boolean wantOverlay = renderType == null || renderType == RenderType.cutoutMipped();
+
             List<BakedQuad> result = new ArrayList<>();
 
-            // 1. Always-visible groups
-            for (String group : alwaysVisible) {
-                List<BakedQuad> q = groupQuads.get(group);
-                if (q != null) result.addAll(q);
+            if (state == null) {
+                if (wantBase)    groupQuads.values().forEach(result::addAll);
+                if (wantOverlay) overlayGroupQuads.values().forEach(result::addAll);
+                return result;
             }
 
-            // 2. Conditional groups driven by BlockState
-            if (state != null) {
-                for (var propEntry : groupConditions.entrySet()) {
-                    String propertyName = propEntry.getKey();
-                    Map<String, String> valueToGroup = propEntry.getValue();
+            for (String group : alwaysVisible) {
+                if (wantBase)    addGroup(result, groupQuads, group);
+                if (wantOverlay) addGroup(result, overlayGroupQuads, group);
+            }
 
-                    // Find the property in the BlockState
-                    state.getProperties().stream()
+            for (var propEntry : groupConditions.entrySet()) {
+                String propertyName = propEntry.getKey();
+                Map<String, String> valueToGroup = propEntry.getValue();
+                state.getProperties().stream()
                         .filter(p -> p.getName().equals(propertyName))
                         .findFirst()
                         .ifPresent(prop -> {
-                            // Get current value as string
-                            String valueStr = getPropertyValueString(prop, state); // ✅ no more type error
+                            String valueStr  = getPropertyValueString(prop, state);
                             String groupName = valueToGroup.get(valueStr);
                             if (groupName != null) {
-                                List<BakedQuad> q = groupQuads.get(groupName);
-                                if (q != null) result.addAll(q);
+                                if (wantBase)    addGroup(result, groupQuads, groupName);
+                                if (wantOverlay) addGroup(result, overlayGroupQuads, groupName);
                             }
                         });
-                }
             }
 
             return result;
         }
 
-        /**
-         * Helper: safely casts a Comparable to the type expected by the property's getName().
-         * This is needed because of Java's raw/generic type erasure with BlockState properties.
-         */
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        private String castPropertyValue(Comparable value) {
-            // Property.getName(T value) needs T; since we got the value from the same property,
-            // this cast is always safe at runtime.
-            return value.toString();
+        private void addGroup(List<BakedQuad> result,
+                              Map<String, List<BakedQuad>> source,
+                              String group) {
+            List<BakedQuad> q = source.get(group);
+            if (q != null) result.addAll(q);
         }
 
-        // ── Standard BakedModel boilerplate ───────────────────────────────────
+        @SuppressWarnings("unchecked")
+        private <T extends Comparable<T>> String getPropertyValueString(Property<?> prop, BlockState state) {
+            Property<T> typed = (Property<T>) prop;
+            return typed.getName(state.getValue(typed));
+        }
 
         @Override public boolean useAmbientOcclusion() { return ao; }
         @Override public boolean isGui3d()             { return gui3d; }
         @Override public boolean usesBlockLight()      { return sidelit; }
         @Override public boolean isCustomRenderer()    { return false; }
+        @Override
+        public @NotNull ChunkRenderTypeSet getRenderTypes(@NotNull BlockState state,
+                                                          @NotNull RandomSource rand,
+                                                          @NotNull ModelData data) {
+            return ChunkRenderTypeSet.of(RenderType.solid(), RenderType.cutoutMipped());
+        }
         @Override public @NotNull TextureAtlasSprite getParticleIcon() { return particle; }
         @Override public @NotNull ItemOverrides getOverrides()         { return overrides; }
         @Override public @NotNull ItemTransforms getTransforms()       { return transforms; }
-    }
-
-    // Replace the castPropertyValue helper and the problematic block with this:
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Comparable<T>> String getPropertyValueString(net.minecraft.world.level.block.state.properties.Property<?> prop, BlockState state) {
-        Property<T> typedProp = (Property<T>) prop;
-        return typedProp.getName(state.getValue(typedProp));
     }
 }

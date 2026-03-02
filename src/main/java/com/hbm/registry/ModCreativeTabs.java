@@ -5,129 +5,1593 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+/**
+ * HBM's Nuclear Tech - Creative Tabs (1.20.1 Forge Port)
+ *
+ * All items assigned to their original 1.7.10 tabs.
+ * Items whose tab was set in the class constructor (weapons, armor, tools,
+ * missile parts, drinks) have been manually mapped to the correct tab.
+ *
+ * Tab summary:
+ *   blockTab                 8 items
+ *   machineTab               1 items
+ *   partsTab               599 items
+ *   controlTab             342 items
+ *   weaponTab              162 items
+ *   missileTab             113 items
+ *   nukeTab                 52 items
+ *   consumableTab          181 items
+ *   templateTab              7 items
+ */
 public class ModCreativeTabs {
 
     public static final DeferredRegister<CreativeModeTab> TABS =
-            DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB
-                    , HBMMod.MODID);
+            DeferredRegister.create(net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB, HBMMod.MODID);
 
-    // =========================
-    // 🧱 BLOCKS
-    // =========================
-    public static final RegistryObject<CreativeModeTab> BLOCKS_TAB =
+    // ──────────────────────────────────────────────────────────────────────
+    // BLOCKTAB  (8 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> BLOCK_TAB =
             TABS.register("blocks", () -> CreativeModeTab.builder()
                     .title(Component.translatable("tab.hbm.blocks"))
-                    .icon(() -> new ItemStack(ModBlocks.TEST_BLOCK.get()))
+                    .icon(() -> new ItemStack(ModItems.DOOR_BUNKER.get()))
                     .displayItems((params, output) -> {
-                        ModBlocks.BLOCKS.getEntries()
-                                .forEach(block -> output.accept(block.get()));
+                        output.accept(ModItems.BUCKET_ACID.get());
+                        output.accept(ModItems.BUCKET_MUD.get());
+                        output.accept(ModItems.BUCKET_SCHRABIDIC_ACID.get());
+                        output.accept(ModItems.BUCKET_SULFURIC_ACID.get());
+                        output.accept(ModItems.BUCKET_TOXIC.get());
+                        output.accept(ModItems.DOOR_BUNKER.get());
+                        output.accept(ModItems.DOOR_METAL.get());
+                        output.accept(ModItems.DOOR_OFFICE.get());
                     })
                     .build());
 
-    // =========================
-    // ⚙ MACHINES
-    // =========================
-    public static final RegistryObject<CreativeModeTab> MACHINES_TAB =
+    // ──────────────────────────────────────────────────────────────────────
+    // MACHINETAB  (1 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> MACHINE_TAB =
             TABS.register("machines", () -> CreativeModeTab.builder()
                     .title(Component.translatable("tab.hbm.machines"))
-                    .icon(() -> new ItemStack(ModBlocks.MACHINE_CASING.get()))
+                    .icon(() -> new ItemStack(ModItems.CONVEYOR_WAND.get()))
                     .displayItems((params, output) -> {
-                        // Later: only machine blocks
-                        ModBlocks.BLOCKS.getEntries()
-                                .forEach(block -> output.accept(block.get()));
+                        output.accept(ModItems.CONVEYOR_WAND.get());
                     })
                     .build());
 
-    // =========================
-    // 🔩 PARTS
-    // =========================
+    // ──────────────────────────────────────────────────────────────────────
+    // PARTSTAB  (599 items)
+    // ──────────────────────────────────────────────────────────────────────
     public static final RegistryObject<CreativeModeTab> PARTS_TAB =
             TABS.register("parts", () -> CreativeModeTab.builder()
                     .title(Component.translatable("tab.hbm.parts"))
-                    .icon(() -> new ItemStack(ModItems.SCHRABIDIUM_INGOT.get()))
+                    .icon(() -> new ItemStack(ModItems.INGOT_SCHRABIDIUM.get()))
                     .displayItems((params, output) -> {
-                        output.accept(ModItems.SCHRABIDIUM_INGOT.get());
-                        output.accept(ModItems.TITANIUM_INGOT.get());
-                        output.accept(ModItems.URANIUM_INGOT.get());
+                        output.accept(ModItems.ASBESTOS_CLOTH.get());
+                        output.accept(ModItems.ASSEMBLY_NUKE.get());
+                        output.accept(ModItems.BALL_DYNAMITE.get());
+                        output.accept(ModItems.BALL_FIRECLAY.get());
+                        output.accept(ModItems.BALL_RESIN.get());
+                        output.accept(ModItems.BALL_TATB.get());
+                        output.accept(ModItems.BALL_TNT.get());
+                        output.accept(ModItems.BALLISTITE.get());
+                        output.accept(ModItems.BEDROCK_ORE.get());
+                        output.accept(ModItems.BEDROCK_ORE_BASE.get());
+                        output.accept(ModItems.BEDROCK_ORE_FRAGMENT.get());
+                        output.accept(ModItems.BILLET_ACTINIUM.get());
+                        output.accept(ModItems.BILLET_AM241.get());
+                        output.accept(ModItems.BILLET_AM242.get());
+                        output.accept(ModItems.BILLET_AM_MIX.get());
+                        output.accept(ModItems.BILLET_AMERICIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_AU198.get());
+                        output.accept(ModItems.BILLET_AUSTRALIUM.get());
+                        output.accept(ModItems.BILLET_AUSTRALIUM_GREATER.get());
+                        output.accept(ModItems.BILLET_AUSTRALIUM_LESSER.get());
+                        output.accept(ModItems.BILLET_BALEFIRE_GOLD.get());
+                        output.accept(ModItems.BILLET_BERYLLIUM.get());
+                        output.accept(ModItems.BILLET_BISMUTH.get());
+                        output.accept(ModItems.BILLET_CO60.get());
+                        output.accept(ModItems.BILLET_COBALT.get());
+                        output.accept(ModItems.BILLET_FLASHLEAD.get());
+                        output.accept(ModItems.BILLET_GH336.get());
+                        output.accept(ModItems.BILLET_HES.get());
+                        output.accept(ModItems.BILLET_LES.get());
+                        output.accept(ModItems.BILLET_MOX_FUEL.get());
+                        output.accept(ModItems.BILLET_NEPTUNIUM.get());
+                        output.accept(ModItems.BILLET_NEPTUNIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_NUCLEAR_WASTE.get());
+                        output.accept(ModItems.BILLET_PB209.get());
+                        output.accept(ModItems.BILLET_PLUTONIUM.get());
+                        output.accept(ModItems.BILLET_PLUTONIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_PO210BE.get());
+                        output.accept(ModItems.BILLET_POLONIUM.get());
+                        output.accept(ModItems.BILLET_PU238.get());
+                        output.accept(ModItems.BILLET_PU238BE.get());
+                        output.accept(ModItems.BILLET_PU239.get());
+                        output.accept(ModItems.BILLET_PU240.get());
+                        output.accept(ModItems.BILLET_PU241.get());
+                        output.accept(ModItems.BILLET_PU_MIX.get());
+                        output.accept(ModItems.BILLET_RA226.get());
+                        output.accept(ModItems.BILLET_RA226BE.get());
+                        output.accept(ModItems.BILLET_SCHRABIDIUM.get());
+                        output.accept(ModItems.BILLET_SCHRABIDIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_SILICON.get());
+                        output.accept(ModItems.BILLET_SOLINIUM.get());
+                        output.accept(ModItems.BILLET_SR90.get());
+                        output.accept(ModItems.BILLET_TECHNETIUM.get());
+                        output.accept(ModItems.BILLET_TH232.get());
+                        output.accept(ModItems.BILLET_THORIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_U233.get());
+                        output.accept(ModItems.BILLET_U235.get());
+                        output.accept(ModItems.BILLET_U238.get());
+                        output.accept(ModItems.BILLET_URANIUM.get());
+                        output.accept(ModItems.BILLET_URANIUM_FUEL.get());
+                        output.accept(ModItems.BILLET_YHARONITE.get());
+                        output.accept(ModItems.BILLET_ZFB_AM_MIX.get());
+                        output.accept(ModItems.BILLET_ZFB_BISMUTH.get());
+                        output.accept(ModItems.BILLET_ZFB_PU241.get());
+                        output.accept(ModItems.BILLET_ZIRCONIUM.get());
+                        output.accept(ModItems.BIO_WAFER.get());
+                        output.accept(ModItems.BIOMASS.get());
+                        output.accept(ModItems.BIOMASS_COMPRESSED.get());
+                        output.accept(ModItems.BLADE_METEORITE.get());
+                        output.accept(ModItems.BLADE_TITANIUM.get());
+                        output.accept(ModItems.BLADE_TUNGSTEN.get());
+                        output.accept(ModItems.BOLT.get());
+                        output.accept(ModItems.BOLT_SPIKE.get());
+                        output.accept(ModItems.BOTTLE_MERCURY.get());
+                        output.accept(ModItems.BRIQUETTE.get());
+                        output.accept(ModItems.CASING.get());
+                        output.accept(ModItems.CATALYST_CLAY.get());
+                        output.accept(ModItems.CENTRIFUGE_ELEMENT.get());
+                        output.accept(ModItems.CHEMICAL_DYE.get());
+                        output.accept(ModItems.CHLORINE_PINWHEEL.get());
+                        output.accept(ModItems.CHUNK_ORE.get());
+                        output.accept(ModItems.CINNEBAR.get());
+                        output.accept(ModItems.CIRCUIT.get());
+                        output.accept(ModItems.COAL_INFERNAL.get());
+                        output.accept(ModItems.COIL_ADVANCED_ALLOY.get());
+                        output.accept(ModItems.COIL_ADVANCED_TORUS.get());
+                        output.accept(ModItems.COIL_COPPER.get());
+                        output.accept(ModItems.COIL_COPPER_TORUS.get());
+                        output.accept(ModItems.COIL_GOLD.get());
+                        output.accept(ModItems.COIL_GOLD_TORUS.get());
+                        output.accept(ModItems.COIL_MAGNETIZED_TUNGSTEN.get());
+                        output.accept(ModItems.COIL_TUNGSTEN.get());
+                        output.accept(ModItems.COKE.get());
+                        output.accept(ModItems.COMBINE_SCRAP.get());
+                        output.accept(ModItems.CORDITE.get());
+                        output.accept(ModItems.CRAYON.get());
+                        output.accept(ModItems.CRT_DISPLAY.get());
+                        output.accept(ModItems.CRYSTAL_ALUMINIUM.get());
+                        output.accept(ModItems.CRYSTAL_BERYLLIUM.get());
+                        output.accept(ModItems.CRYSTAL_CHARRED.get());
+                        output.accept(ModItems.CRYSTAL_CINNEBAR.get());
+                        output.accept(ModItems.CRYSTAL_COAL.get());
+                        output.accept(ModItems.CRYSTAL_COBALT.get());
+                        output.accept(ModItems.CRYSTAL_COPPER.get());
+                        output.accept(ModItems.CRYSTAL_DIAMOND.get());
+                        output.accept(ModItems.CRYSTAL_FLUORITE.get());
+                        output.accept(ModItems.CRYSTAL_GOLD.get());
+                        output.accept(ModItems.CRYSTAL_HORN.get());
+                        output.accept(ModItems.CRYSTAL_IRON.get());
+                        output.accept(ModItems.CRYSTAL_LAPIS.get());
+                        output.accept(ModItems.CRYSTAL_LEAD.get());
+                        output.accept(ModItems.CRYSTAL_LITHIUM.get());
+                        output.accept(ModItems.CRYSTAL_NITER.get());
+                        output.accept(ModItems.CRYSTAL_OSMIRIDIUM.get());
+                        output.accept(ModItems.CRYSTAL_PHOSPHORUS.get());
+                        output.accept(ModItems.CRYSTAL_PLUTONIUM.get());
+                        output.accept(ModItems.CRYSTAL_RARE.get());
+                        output.accept(ModItems.CRYSTAL_REDSTONE.get());
+                        output.accept(ModItems.CRYSTAL_SCHRABIDIUM.get());
+                        output.accept(ModItems.CRYSTAL_SCHRARANIUM.get());
+                        output.accept(ModItems.CRYSTAL_STARMETAL.get());
+                        output.accept(ModItems.CRYSTAL_SULFUR.get());
+                        output.accept(ModItems.CRYSTAL_THORIUM.get());
+                        output.accept(ModItems.CRYSTAL_TITANIUM.get());
+                        output.accept(ModItems.CRYSTAL_TRIXITE.get());
+                        output.accept(ModItems.CRYSTAL_TUNGSTEN.get());
+                        output.accept(ModItems.CRYSTAL_URANIUM.get());
+                        output.accept(ModItems.DEUTERIUM_FILTER.get());
+                        output.accept(ModItems.DRILL_TITANIUM.get());
+                        output.accept(ModItems.DUCTTAPE.get());
+                        output.accept(ModItems.DUST.get());
+                        output.accept(ModItems.DUST_TINY.get());
+                        output.accept(ModItems.DYSFUNCTIONAL_REACTOR.get());
+                        output.accept(ModItems.ENTANGLEMENT_KIT.get());
+                        output.accept(ModItems.FALLOUT.get());
+                        output.accept(ModItems.FILTER_COAL.get());
+                        output.accept(ModItems.FINS_BIG_STEEL.get());
+                        output.accept(ModItems.FINS_FLAT.get());
+                        output.accept(ModItems.FINS_QUAD_TITANIUM.get());
+                        output.accept(ModItems.FINS_SMALL_STEEL.get());
+                        output.accept(ModItems.FINS_TRI_STEEL.get());
+                        output.accept(ModItems.FLAME_CONSPIRACY.get());
+                        output.accept(ModItems.FLAME_OPINION.get());
+                        output.accept(ModItems.FLAME_POLITICS.get());
+                        output.accept(ModItems.FLAME_PONY.get());
+                        output.accept(ModItems.FLUORITE.get());
+                        output.accept(ModItems.FLYWHEEL_BERYLLIUM.get());
+                        output.accept(ModItems.FRAGMENT_ACTINIUM.get());
+                        output.accept(ModItems.FRAGMENT_BORON.get());
+                        output.accept(ModItems.FRAGMENT_CERIUM.get());
+                        output.accept(ModItems.FRAGMENT_COBALT.get());
+                        output.accept(ModItems.FRAGMENT_COLTAN.get());
+                        output.accept(ModItems.FRAGMENT_LANTHANIUM.get());
+                        output.accept(ModItems.FRAGMENT_METEORITE.get());
+                        output.accept(ModItems.FRAGMENT_NEODYMIUM.get());
+                        output.accept(ModItems.FRAGMENT_NIOBIUM.get());
+                        output.accept(ModItems.FUEL_TANK_LARGE.get());
+                        output.accept(ModItems.FUEL_TANK_MEDIUM.get());
+                        output.accept(ModItems.FUEL_TANK_SMALL.get());
+                        output.accept(ModItems.GEAR_LARGE.get());
+                        output.accept(ModItems.GEM_ALEXANDRITE.get());
+                        output.accept(ModItems.GEM_RAD.get());
+                        output.accept(ModItems.GEM_SODALITE.get());
+                        output.accept(ModItems.GEM_TANTALIUM.get());
+                        output.accept(ModItems.GEM_VOLCANIC.get());
+                        output.accept(ModItems.HAZMAT_CLOTH.get());
+                        output.accept(ModItems.HAZMAT_CLOTH_GREY.get());
+                        output.accept(ModItems.HAZMAT_CLOTH_RED.get());
+                        output.accept(ModItems.INGOT_ACTINIUM.get());
+                        output.accept(ModItems.INGOT_ADVANCED_ALLOY.get());
+                        output.accept(ModItems.INGOT_ALUMINIUM.get());
+                        output.accept(ModItems.INGOT_AM241.get());
+                        output.accept(ModItems.INGOT_AM242.get());
+                        output.accept(ModItems.INGOT_AM_MIX.get());
+                        output.accept(ModItems.INGOT_AMERICIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_ARSENIC.get());
+                        output.accept(ModItems.INGOT_ARSENIC_BRONZE.get());
+                        output.accept(ModItems.INGOT_ASBESTOS.get());
+                        output.accept(ModItems.INGOT_AU198.get());
+                        output.accept(ModItems.INGOT_AUSTRALIUM.get());
+                        output.accept(ModItems.INGOT_BAKELITE.get());
+                        output.accept(ModItems.INGOT_BERYLLIUM.get());
+                        output.accept(ModItems.INGOT_BIORUBBER.get());
+                        output.accept(ModItems.INGOT_BISMUTH.get());
+                        output.accept(ModItems.INGOT_BISMUTH_BRONZE.get());
+                        output.accept(ModItems.INGOT_BORON.get());
+                        output.accept(ModItems.INGOT_BSCCO.get());
+                        output.accept(ModItems.INGOT_C4.get());
+                        output.accept(ModItems.INGOT_CADMIUM.get());
+                        output.accept(ModItems.INGOT_CALCIUM.get());
+                        output.accept(ModItems.INGOT_CDALLOY.get());
+                        output.accept(ModItems.INGOT_CFT.get());
+                        output.accept(ModItems.INGOT_CHAINSTEEL.get());
+                        output.accept(ModItems.INGOT_CO60.get());
+                        output.accept(ModItems.INGOT_COBALT.get());
+                        output.accept(ModItems.INGOT_COMBINE_STEEL.get());
+                        output.accept(ModItems.INGOT_COPPER.get());
+                        output.accept(ModItems.INGOT_DESH.get());
+                        output.accept(ModItems.INGOT_DINEUTRONIUM.get());
+                        output.accept(ModItems.INGOT_DURA_STEEL.get());
+                        output.accept(ModItems.INGOT_ELECTRONIUM.get());
+                        output.accept(ModItems.INGOT_EUPHEMIUM.get());
+                        output.accept(ModItems.INGOT_FERROURANIUM.get());
+                        output.accept(ModItems.INGOT_FIBERGLASS.get());
+                        output.accept(ModItems.INGOT_FIREBRICK.get());
+                        output.accept(ModItems.INGOT_GH336.get());
+                        output.accept(ModItems.INGOT_GRAPHITE.get());
+                        output.accept(ModItems.INGOT_GUNMETAL.get());
+                        output.accept(ModItems.INGOT_HES.get());
+                        output.accept(ModItems.INGOT_LANTHANIUM.get());
+                        output.accept(ModItems.INGOT_LEAD.get());
+                        output.accept(ModItems.INGOT_LES.get());
+                        output.accept(ModItems.INGOT_MAGNETIZED_TUNGSTEN.get());
+                        output.accept(ModItems.INGOT_MERCURY.get());
+                        output.accept(ModItems.INGOT_METEORITE.get());
+                        output.accept(ModItems.INGOT_METEORITE_FORGED.get());
+                        output.accept(ModItems.INGOT_MOX_FUEL.get());
+                        output.accept(ModItems.INGOT_MUD.get());
+                        output.accept(ModItems.INGOT_NEPTUNIUM.get());
+                        output.accept(ModItems.INGOT_NEPTUNIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_NIOBIUM.get());
+                        output.accept(ModItems.INGOT_OSMIRIDIUM.get());
+                        output.accept(ModItems.INGOT_PB209.get());
+                        output.accept(ModItems.INGOT_PC.get());
+                        output.accept(ModItems.INGOT_PHOSPHORUS.get());
+                        output.accept(ModItems.INGOT_PLUTONIUM.get());
+                        output.accept(ModItems.INGOT_PLUTONIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_POLONIUM.get());
+                        output.accept(ModItems.INGOT_POLYMER.get());
+                        output.accept(ModItems.INGOT_PU238.get());
+                        output.accept(ModItems.INGOT_PU239.get());
+                        output.accept(ModItems.INGOT_PU240.get());
+                        output.accept(ModItems.INGOT_PU241.get());
+                        output.accept(ModItems.INGOT_PU_MIX.get());
+                        output.accept(ModItems.INGOT_PVC.get());
+                        output.accept(ModItems.INGOT_RA226.get());
+                        output.accept(ModItems.INGOT_RAW.get());
+                        output.accept(ModItems.INGOT_RED_COPPER.get());
+                        output.accept(ModItems.INGOT_RUBBER.get());
+                        output.accept(ModItems.INGOT_SATURNITE.get());
+                        output.accept(ModItems.INGOT_SCHRABIDATE.get());
+                        output.accept(ModItems.INGOT_SCHRABIDIUM.get());
+                        output.accept(ModItems.INGOT_SCHRABIDIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_SCHRARANIUM.get());
+                        output.accept(ModItems.INGOT_SEMTEX.get());
+                        output.accept(ModItems.INGOT_SILICON.get());
+                        output.accept(ModItems.INGOT_SMORE.get());
+                        output.accept(ModItems.INGOT_SOLINIUM.get());
+                        output.accept(ModItems.INGOT_SR90.get());
+                        output.accept(ModItems.INGOT_STARMETAL.get());
+                        output.accept(ModItems.INGOT_STEEL.get());
+                        output.accept(ModItems.INGOT_STEEL_DUSTED.get());
+                        output.accept(ModItems.INGOT_TANTALIUM.get());
+                        output.accept(ModItems.INGOT_TCALLOY.get());
+                        output.accept(ModItems.INGOT_TECHNETIUM.get());
+                        output.accept(ModItems.INGOT_TH232.get());
+                        output.accept(ModItems.INGOT_THORIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_TITANIUM.get());
+                        output.accept(ModItems.INGOT_TUNGSTEN.get());
+                        output.accept(ModItems.INGOT_U233.get());
+                        output.accept(ModItems.INGOT_U235.get());
+                        output.accept(ModItems.INGOT_U238.get());
+                        output.accept(ModItems.INGOT_URANIUM.get());
+                        output.accept(ModItems.INGOT_URANIUM_FUEL.get());
+                        output.accept(ModItems.INGOT_WEAPONSTEEL.get());
+                        output.accept(ModItems.INGOT_ZIRCONIUM.get());
+                        output.accept(ModItems.ITEM_EXPENSIVE.get());
+                        output.accept(ModItems.LAUNCH_CODE.get());
+                        output.accept(ModItems.LAUNCH_CODE_PIECE.get());
+                        output.accept(ModItems.LAUNCH_KEY.get());
+                        output.accept(ModItems.LIGNITE.get());
+                        output.accept(ModItems.LITHIUM.get());
+                        output.accept(ModItems.MAGNETRON.get());
+                        output.accept(ModItems.MISSILE_ASSEMBLY.get());
+                        output.accept(ModItems.MOTOR.get());
+                        output.accept(ModItems.MOTOR_BISMUTH.get());
+                        output.accept(ModItems.MOTOR_DESH.get());
+                        output.accept(ModItems.NEUTRON_REFLECTOR.get());
+                        output.accept(ModItems.NITER.get());
+                        output.accept(ModItems.NITRA.get());
+                        output.accept(ModItems.NITRA_SMALL.get());
+                        output.accept(ModItems.NUCLEAR_WASTE.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_LONG.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_LONG_DEPLETED.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_LONG_DEPLETED_TINY.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_LONG_TINY.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_SHORT.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_SHORT_DEPLETED.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_SHORT_DEPLETED_TINY.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_SHORT_TINY.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_TINY.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_VITRIFIED.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_VITRIFIED_TINY.get());
+                        output.accept(ModItems.NUGGET_ACTINIUM.get());
+                        output.accept(ModItems.NUGGET_AM241.get());
+                        output.accept(ModItems.NUGGET_AM242.get());
+                        output.accept(ModItems.NUGGET_AM_MIX.get());
+                        output.accept(ModItems.NUGGET_AMERICIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_ARSENIC.get());
+                        output.accept(ModItems.NUGGET_AU198.get());
+                        output.accept(ModItems.NUGGET_AUSTRALIUM.get());
+                        output.accept(ModItems.NUGGET_AUSTRALIUM_GREATER.get());
+                        output.accept(ModItems.NUGGET_AUSTRALIUM_LESSER.get());
+                        output.accept(ModItems.NUGGET_BERYLLIUM.get());
+                        output.accept(ModItems.NUGGET_BISMUTH.get());
+                        output.accept(ModItems.NUGGET_CO60.get());
+                        output.accept(ModItems.NUGGET_COBALT.get());
+                        output.accept(ModItems.NUGGET_DESH.get());
+                        output.accept(ModItems.NUGGET_DINEUTRONIUM.get());
+                        output.accept(ModItems.NUGGET_EUPHEMIUM.get());
+                        output.accept(ModItems.NUGGET_GH336.get());
+                        output.accept(ModItems.NUGGET_HES.get());
+                        output.accept(ModItems.NUGGET_LEAD.get());
+                        output.accept(ModItems.NUGGET_LES.get());
+                        output.accept(ModItems.NUGGET_MERCURY.get());
+                        output.accept(ModItems.NUGGET_MOX_FUEL.get());
+                        output.accept(ModItems.NUGGET_NEPTUNIUM.get());
+                        output.accept(ModItems.NUGGET_NEPTUNIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_NIOBIUM.get());
+                        output.accept(ModItems.NUGGET_OSMIRIDIUM.get());
+                        output.accept(ModItems.NUGGET_PB209.get());
+                        output.accept(ModItems.NUGGET_PLUTONIUM.get());
+                        output.accept(ModItems.NUGGET_PLUTONIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_POLONIUM.get());
+                        output.accept(ModItems.NUGGET_PU238.get());
+                        output.accept(ModItems.NUGGET_PU239.get());
+                        output.accept(ModItems.NUGGET_PU240.get());
+                        output.accept(ModItems.NUGGET_PU241.get());
+                        output.accept(ModItems.NUGGET_PU_MIX.get());
+                        output.accept(ModItems.NUGGET_RA226.get());
+                        output.accept(ModItems.NUGGET_SCHRABIDIUM.get());
+                        output.accept(ModItems.NUGGET_SCHRABIDIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_SILICON.get());
+                        output.accept(ModItems.NUGGET_SOLINIUM.get());
+                        output.accept(ModItems.NUGGET_SR90.get());
+                        output.accept(ModItems.NUGGET_TANTALIUM.get());
+                        output.accept(ModItems.NUGGET_TECHNETIUM.get());
+                        output.accept(ModItems.NUGGET_TH232.get());
+                        output.accept(ModItems.NUGGET_THORIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_U233.get());
+                        output.accept(ModItems.NUGGET_U235.get());
+                        output.accept(ModItems.NUGGET_U238.get());
+                        output.accept(ModItems.NUGGET_URANIUM.get());
+                        output.accept(ModItems.NUGGET_URANIUM_FUEL.get());
+                        output.accept(ModItems.NUGGET_ZIRCONIUM.get());
+                        output.accept(ModItems.OIL_TAR.get());
+                        output.accept(ModItems.ORE_BEDROCK.get());
+                        output.accept(ModItems.ORE_BYPRODUCT.get());
+                        output.accept(ModItems.ORE_CENTRIFUGED.get());
+                        output.accept(ModItems.ORE_CLEANED.get());
+                        output.accept(ModItems.ORE_DEEPCLEANED.get());
+                        output.accept(ModItems.ORE_ENRICHED.get());
+                        output.accept(ModItems.ORE_NITRATED.get());
+                        output.accept(ModItems.ORE_NITROCRYSTALLINE.get());
+                        output.accept(ModItems.ORE_PURIFIED.get());
+                        output.accept(ModItems.ORE_SEARED.get());
+                        output.accept(ModItems.ORE_SEPARATED.get());
+                        output.accept(ModItems.PART_BARREL_HEAVY.get());
+                        output.accept(ModItems.PART_BARREL_LIGHT.get());
+                        output.accept(ModItems.PART_GENERIC.get());
+                        output.accept(ModItems.PART_GRIP.get());
+                        output.accept(ModItems.PART_MECHANISM.get());
+                        output.accept(ModItems.PART_RECEIVER_HEAVY.get());
+                        output.accept(ModItems.PART_RECEIVER_LIGHT.get());
+                        output.accept(ModItems.PART_STOCK.get());
+                        output.accept(ModItems.PARTS_LEGENDARY.get());
+                        output.accept(ModItems.PEDESTAL_STEEL.get());
+                        output.accept(ModItems.PELLET_BUCKSHOT.get());
+                        output.accept(ModItems.PELLET_CHARGED.get());
+                        output.accept(ModItems.PELLET_CLUSTER.get());
+                        output.accept(ModItems.PELLET_GAS.get());
+                        output.accept(ModItems.PHOTO_PANEL.get());
+                        output.accept(ModItems.PIPE.get());
+                        output.accept(ModItems.PIPES_STEEL.get());
+                        output.accept(ModItems.PLANT_ITEM.get());
+                        output.accept(ModItems.PLATE_ADVANCED_ALLOY.get());
+                        output.accept(ModItems.PLATE_ALUMINIUM.get());
+                        output.accept(ModItems.PLATE_ARMOR_AJR.get());
+                        output.accept(ModItems.PLATE_ARMOR_DNT.get());
+                        output.accept(ModItems.PLATE_ARMOR_FAU.get());
+                        output.accept(ModItems.PLATE_ARMOR_HEV.get());
+                        output.accept(ModItems.PLATE_ARMOR_LUNAR.get());
+                        output.accept(ModItems.PLATE_ARMOR_TITANIUM.get());
+                        output.accept(ModItems.PLATE_BISMUTH.get());
+                        output.accept(ModItems.PLATE_CAST.get());
+                        output.accept(ModItems.PLATE_COMBINE_STEEL.get());
+                        output.accept(ModItems.PLATE_COPPER.get());
+                        output.accept(ModItems.PLATE_DALEKANIUM.get());
+                        output.accept(ModItems.PLATE_DESH.get());
+                        output.accept(ModItems.PLATE_DINEUTRONIUM.get());
+                        output.accept(ModItems.PLATE_DURA_STEEL.get());
+                        output.accept(ModItems.PLATE_EUPHEMIUM.get());
+                        output.accept(ModItems.PLATE_GOLD.get());
+                        output.accept(ModItems.PLATE_GUNMETAL.get());
+                        output.accept(ModItems.PLATE_IRON.get());
+                        output.accept(ModItems.PLATE_KEVLAR.get());
+                        output.accept(ModItems.PLATE_LEAD.get());
+                        output.accept(ModItems.PLATE_MIXED.get());
+                        output.accept(ModItems.PLATE_PAA.get());
+                        output.accept(ModItems.PLATE_POLYMER.get());
+                        output.accept(ModItems.PLATE_SATURNITE.get());
+                        output.accept(ModItems.PLATE_SCHRABIDIUM.get());
+                        output.accept(ModItems.PLATE_STEEL.get());
+                        output.accept(ModItems.PLATE_TITANIUM.get());
+                        output.accept(ModItems.PLATE_WEAPONSTEEL.get());
+                        output.accept(ModItems.PLATE_WELDED.get());
+                        output.accept(ModItems.POWDER_ACTINIUM.get());
+                        output.accept(ModItems.POWDER_ACTINIUM_TINY.get());
+                        output.accept(ModItems.POWDER_ADVANCED_ALLOY.get());
+                        output.accept(ModItems.POWDER_ALUMINIUM.get());
+                        output.accept(ModItems.POWDER_ASBESTOS.get());
+                        output.accept(ModItems.POWDER_ASH.get());
+                        output.accept(ModItems.POWDER_ASTATINE.get());
+                        output.accept(ModItems.POWDER_AT209.get());
+                        output.accept(ModItems.POWDER_AU198.get());
+                        output.accept(ModItems.POWDER_AUSTRALIUM.get());
+                        output.accept(ModItems.POWDER_BAKELITE.get());
+                        output.accept(ModItems.POWDER_BALEFIRE.get());
+                        output.accept(ModItems.POWDER_BERYLLIUM.get());
+                        output.accept(ModItems.POWDER_BISMUTH.get());
+                        output.accept(ModItems.POWDER_BORAX.get());
+                        output.accept(ModItems.POWDER_BORON.get());
+                        output.accept(ModItems.POWDER_BORON_TINY.get());
+                        output.accept(ModItems.POWDER_BROMINE.get());
+                        output.accept(ModItems.POWDER_CADMIUM.get());
+                        output.accept(ModItems.POWDER_CAESIUM.get());
+                        output.accept(ModItems.POWDER_CALCIUM.get());
+                        output.accept(ModItems.POWDER_CEMENT.get());
+                        output.accept(ModItems.POWDER_CERIUM.get());
+                        output.accept(ModItems.POWDER_CERIUM_TINY.get());
+                        output.accept(ModItems.POWDER_CHLOROCALCITE.get());
+                        output.accept(ModItems.POWDER_CHLOROPHYTE.get());
+                        output.accept(ModItems.POWDER_CO60.get());
+                        output.accept(ModItems.POWDER_COAL.get());
+                        output.accept(ModItems.POWDER_COAL_TINY.get());
+                        output.accept(ModItems.POWDER_COBALT.get());
+                        output.accept(ModItems.POWDER_COBALT_TINY.get());
+                        output.accept(ModItems.POWDER_COLTAN.get());
+                        output.accept(ModItems.POWDER_COLTAN_ORE.get());
+                        output.accept(ModItems.POWDER_COMBINE_STEEL.get());
+                        output.accept(ModItems.POWDER_COPPER.get());
+                        output.accept(ModItems.POWDER_CS137.get());
+                        output.accept(ModItems.POWDER_CS137_TINY.get());
+                        output.accept(ModItems.POWDER_DESH.get());
+                        output.accept(ModItems.POWDER_DESH_MIX.get());
+                        output.accept(ModItems.POWDER_DESH_READY.get());
+                        output.accept(ModItems.POWDER_DIAMOND.get());
+                        output.accept(ModItems.POWDER_DINEUTRONIUM.get());
+                        output.accept(ModItems.POWDER_DURA_STEEL.get());
+                        output.accept(ModItems.POWDER_EMERALD.get());
+                        output.accept(ModItems.POWDER_EUPHEMIUM.get());
+                        output.accept(ModItems.POWDER_FERTILIZER.get());
+                        output.accept(ModItems.POWDER_FIRE.get());
+                        output.accept(ModItems.POWDER_FLUX.get());
+                        output.accept(ModItems.POWDER_GOLD.get());
+                        output.accept(ModItems.POWDER_I131.get());
+                        output.accept(ModItems.POWDER_I131_TINY.get());
+                        output.accept(ModItems.POWDER_ICE.get());
+                        output.accept(ModItems.POWDER_IMPURE_OSMIRIDIUM.get());
+                        output.accept(ModItems.POWDER_IODINE.get());
+                        output.accept(ModItems.POWDER_IRON.get());
+                        output.accept(ModItems.POWDER_LANTHANIUM.get());
+                        output.accept(ModItems.POWDER_LANTHANIUM_TINY.get());
+                        output.accept(ModItems.POWDER_LAPIS.get());
+                        output.accept(ModItems.POWDER_LEAD.get());
+                        output.accept(ModItems.POWDER_LIGNITE.get());
+                        output.accept(ModItems.POWDER_LIMESTONE.get());
+                        output.accept(ModItems.POWDER_LITHIUM.get());
+                        output.accept(ModItems.POWDER_LITHIUM_TINY.get());
+                        output.accept(ModItems.POWDER_MAGIC.get());
+                        output.accept(ModItems.POWDER_MAGNETIZED_TUNGSTEN.get());
+                        output.accept(ModItems.POWDER_METEORITE.get());
+                        output.accept(ModItems.POWDER_METEORITE_TINY.get());
+                        output.accept(ModItems.POWDER_MOLYSITE.get());
+                        output.accept(ModItems.POWDER_NEODYMIUM.get());
+                        output.accept(ModItems.POWDER_NEODYMIUM_TINY.get());
+                        output.accept(ModItems.POWDER_NEPTUNIUM.get());
+                        output.accept(ModItems.POWDER_NIOBIUM.get());
+                        output.accept(ModItems.POWDER_NIOBIUM_TINY.get());
+                        output.accept(ModItems.POWDER_NITAN_MIX.get());
+                        output.accept(ModItems.POWDER_PALEOGENITE.get());
+                        output.accept(ModItems.POWDER_PALEOGENITE_TINY.get());
+                        output.accept(ModItems.POWDER_PLUTONIUM.get());
+                        output.accept(ModItems.POWDER_POISON.get());
+                        output.accept(ModItems.POWDER_POLONIUM.get());
+                        output.accept(ModItems.POWDER_POLYMER.get());
+                        output.accept(ModItems.POWDER_POWER.get());
+                        output.accept(ModItems.POWDER_QUARTZ.get());
+                        output.accept(ModItems.POWDER_RA226.get());
+                        output.accept(ModItems.POWDER_RED_COPPER.get());
+                        output.accept(ModItems.POWDER_SAWDUST.get());
+                        output.accept(ModItems.POWDER_SCHRABIDATE.get());
+                        output.accept(ModItems.POWDER_SCHRABIDIUM.get());
+                        output.accept(ModItems.POWDER_SEMTEX_MIX.get());
+                        output.accept(ModItems.POWDER_SODIUM.get());
+                        output.accept(ModItems.POWDER_SPARK_MIX.get());
+                        output.accept(ModItems.POWDER_SR90.get());
+                        output.accept(ModItems.POWDER_SR90_TINY.get());
+                        output.accept(ModItems.POWDER_STEEL.get());
+                        output.accept(ModItems.POWDER_STEEL_TINY.get());
+                        output.accept(ModItems.POWDER_STRONTIUM.get());
+                        output.accept(ModItems.POWDER_TANTALIUM.get());
+                        output.accept(ModItems.POWDER_TCALLOY.get());
+                        output.accept(ModItems.POWDER_TEKTITE.get());
+                        output.accept(ModItems.POWDER_TENNESSINE.get());
+                        output.accept(ModItems.POWDER_THERMITE.get());
+                        output.accept(ModItems.POWDER_THORIUM.get());
+                        output.accept(ModItems.POWDER_TITANIUM.get());
+                        output.accept(ModItems.POWDER_TUNGSTEN.get());
+                        output.accept(ModItems.POWDER_URANIUM.get());
+                        output.accept(ModItems.POWDER_XE135.get());
+                        output.accept(ModItems.POWDER_XE135_TINY.get());
+                        output.accept(ModItems.POWDER_YELLOWCAKE.get());
+                        output.accept(ModItems.POWDER_ZIRCONIUM.get());
+                        output.accept(ModItems.RAG.get());
+                        output.accept(ModItems.RAG_DAMP.get());
+                        output.accept(ModItems.RAG_PISS.get());
+                        output.accept(ModItems.REACTOR_CORE.get());
+                        output.accept(ModItems.RING_STARMETAL.get());
+                        output.accept(ModItems.ROCKET_FUEL.get());
+                        output.accept(ModItems.RTG_UNIT.get());
+                        output.accept(ModItems.RUNE_BLANK.get());
+                        output.accept(ModItems.RUNE_DAGAZ.get());
+                        output.accept(ModItems.RUNE_HAGALAZ.get());
+                        output.accept(ModItems.RUNE_ISA.get());
+                        output.accept(ModItems.RUNE_JERA.get());
+                        output.accept(ModItems.RUNE_THURISAZ.get());
+                        output.accept(ModItems.SAFETY_FUSE.get());
+                        output.accept(ModItems.SAT_BASE.get());
+                        output.accept(ModItems.SAT_HEAD_LASER.get());
+                        output.accept(ModItems.SAT_HEAD_MAPPER.get());
+                        output.accept(ModItems.SAT_HEAD_RADAR.get());
+                        output.accept(ModItems.SAT_HEAD_RESONATOR.get());
+                        output.accept(ModItems.SAT_HEAD_SCANNER.get());
+                        output.accept(ModItems.SAWBLADE.get());
+                        output.accept(ModItems.SCRAP.get());
+                        output.accept(ModItems.SCRAP_NUCLEAR.get());
+                        output.accept(ModItems.SCRAP_OIL.get());
+                        output.accept(ModItems.SCRAPS.get());
+                        output.accept(ModItems.SEG_10.get());
+                        output.accept(ModItems.SEG_15.get());
+                        output.accept(ModItems.SEG_20.get());
+                        output.accept(ModItems.SHELL.get());
+                        output.accept(ModItems.SHIMMER_AXE_HEAD.get());
+                        output.accept(ModItems.SHIMMER_HANDLE.get());
+                        output.accept(ModItems.SHIMMER_HEAD.get());
+                        output.accept(ModItems.SOLID_FUEL.get());
+                        output.accept(ModItems.SOLID_FUEL_BF.get());
+                        output.accept(ModItems.SOLID_FUEL_PRESTO.get());
+                        output.accept(ModItems.SOLID_FUEL_PRESTO_BF.get());
+                        output.accept(ModItems.SOLID_FUEL_PRESTO_TRIPLET.get());
+                        output.accept(ModItems.SOLID_FUEL_PRESTO_TRIPLET_BF.get());
+                        output.accept(ModItems.SPHERE_STEEL.get());
+                        output.accept(ModItems.SULFUR.get());
+                        output.accept(ModItems.TANK_STEEL.get());
+                        output.accept(ModItems.THRUSTER_LARGE.get());
+                        output.accept(ModItems.THRUSTER_MEDIUM.get());
+                        output.accept(ModItems.THRUSTER_NUCLEAR.get());
+                        output.accept(ModItems.THRUSTER_SMALL.get());
+                        output.accept(ModItems.TRINITITE.get());
+                        output.accept(ModItems.TURBINE_TITANIUM.get());
+                        output.accept(ModItems.TURBINE_TUNGSTEN.get());
+                        output.accept(ModItems.UNDEFINED.get());
+                        output.accept(ModItems.UPGRADE_MUFFLER.get());
+                        output.accept(ModItems.UPGRADE_TEMPLATE.get());
+                        output.accept(ModItems.WARHEAD_BUSTER_LARGE.get());
+                        output.accept(ModItems.WARHEAD_BUSTER_MEDIUM.get());
+                        output.accept(ModItems.WARHEAD_BUSTER_SMALL.get());
+                        output.accept(ModItems.WARHEAD_CLUSTER_LARGE.get());
+                        output.accept(ModItems.WARHEAD_CLUSTER_MEDIUM.get());
+                        output.accept(ModItems.WARHEAD_CLUSTER_SMALL.get());
+                        output.accept(ModItems.WARHEAD_GENERIC_LARGE.get());
+                        output.accept(ModItems.WARHEAD_GENERIC_MEDIUM.get());
+                        output.accept(ModItems.WARHEAD_GENERIC_SMALL.get());
+                        output.accept(ModItems.WARHEAD_INCENDIARY_LARGE.get());
+                        output.accept(ModItems.WARHEAD_INCENDIARY_MEDIUM.get());
+                        output.accept(ModItems.WARHEAD_INCENDIARY_SMALL.get());
+                        output.accept(ModItems.WARHEAD_MIRV.get());
+                        output.accept(ModItems.WARHEAD_NUCLEAR.get());
+                        output.accept(ModItems.WARHEAD_VOLCANO.get());
+                        output.accept(ModItems.WASTE_MOX.get());
+                        output.accept(ModItems.WASTE_NATURAL_URANIUM.get());
+                        output.accept(ModItems.WASTE_PLATE_MOX.get());
+                        output.accept(ModItems.WASTE_PLATE_PU238BE.get());
+                        output.accept(ModItems.WASTE_PLATE_PU239.get());
+                        output.accept(ModItems.WASTE_PLATE_RA226BE.get());
+                        output.accept(ModItems.WASTE_PLATE_SA326.get());
+                        output.accept(ModItems.WASTE_PLATE_U233.get());
+                        output.accept(ModItems.WASTE_PLATE_U235.get());
+                        output.accept(ModItems.WASTE_PLUTONIUM.get());
+                        output.accept(ModItems.WASTE_SCHRABIDIUM.get());
+                        output.accept(ModItems.WASTE_THORIUM.get());
+                        output.accept(ModItems.WASTE_U233.get());
+                        output.accept(ModItems.WASTE_U235.get());
+                        output.accept(ModItems.WASTE_URANIUM.get());
+                        output.accept(ModItems.WASTE_ZFB_MOX.get());
+                        output.accept(ModItems.WIRE_DENSE.get());
+                        output.accept(ModItems.WIRE_FINE.get());
+                        output.accept(ModItems.WIRING_RED_COPPER.get());
+                        output.accept(ModItems.WRENCH.get());
                     })
                     .build());
 
-    // =========================
-    // 🔫 WEAPONS
-    // =========================
-    public static final RegistryObject<CreativeModeTab> WEAPONS_TAB =
-            TABS.register("weapons", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("tab.hbm.weapons"))
-                    .icon(() -> new ItemStack(ModItems.TEST_ITEM.get()))
-                    .displayItems((params, output) -> {
-                        // Later: guns, bombs, launchers
-                        output.accept(ModItems.TEST_ITEM.get());
-                    })
-                    .build());
-
-    // =========================
-    // 🚀 MISSILES
-    // =========================
-    public static final RegistryObject<CreativeModeTab> MISSILES_TAB =
-            TABS.register("missiles", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("tab.hbm.missiles"))
-                    .icon(() -> new ItemStack(ModItems.TEST_ITEM.get()))
-                    .displayItems((params, output) -> {
-                        // Placeholder for missile items
-                        output.accept(ModItems.TEST_ITEM.get());
-                    })
-                    .build());
-
-    // =========================
-    // ☢ NUKES
-    // =========================
-    public static final RegistryObject<CreativeModeTab> NUKES_TAB =
-            TABS.register("nukes", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("tab.hbm.nukes"))
-                    .icon(() -> new ItemStack(ModItems.URANIUM_INGOT.get()))
-                    .displayItems((params, output) -> {
-                        output.accept(ModItems.URANIUM_INGOT.get());
-                    })
-                    .build());
-
-    // =========================
-    // 🍖 CONSUMABLES
-    // =========================
-    public static final RegistryObject<CreativeModeTab> CONSUMABLES_TAB =
-            TABS.register("consumables", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("tab.hbm.consumables"))
-                    .icon(() -> new ItemStack(ModItems.CANNED_FOOD.get()))
-                    .displayItems((params, output) -> {
-                        output.accept(ModItems.CANNED_FOOD.get());
-                    })
-                    .build());
-
-    // =========================
-    // 🎛 CONTROL / LOGIC
-    // =========================
+    // ──────────────────────────────────────────────────────────────────────
+    // CONTROLTAB  (342 items)
+    // ──────────────────────────────────────────────────────────────────────
     public static final RegistryObject<CreativeModeTab> CONTROL_TAB =
             TABS.register("control", () -> CreativeModeTab.builder()
                     .title(Component.translatable("tab.hbm.control"))
-                    .icon(() -> new ItemStack(ModBlocks.TEST_BLOCK.get()))
+                    .icon(() -> new ItemStack(ModItems.CIRCUIT.get()))
                     .displayItems((params, output) -> {
-                        // Redstone, logic, controllers later
-                        ModBlocks.BLOCKS.getEntries()
-                                .forEach(block -> output.accept(block.get()));
+                        output.accept(ModItems.ACHIEVEMENT_ICON.get());
+                        output.accept(ModItems.AMS_CATALYST_ALUMINIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_BERYLLIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_BLANK.get());
+                        output.accept(ModItems.AMS_CATALYST_CAESIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_CERIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_COBALT.get());
+                        output.accept(ModItems.AMS_CATALYST_COPPER.get());
+                        output.accept(ModItems.AMS_CATALYST_DINEUTRONIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_EUPHEMIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_IRON.get());
+                        output.accept(ModItems.AMS_CATALYST_LITHIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_NIOBIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_SCHRABIDIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_STRONTIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_THORIUM.get());
+                        output.accept(ModItems.AMS_CATALYST_TUNGSTEN.get());
+                        output.accept(ModItems.AMS_CORE_EYEOFHARMONY.get());
+                        output.accept(ModItems.AMS_CORE_SING.get());
+                        output.accept(ModItems.AMS_CORE_WORMHOLE.get());
+                        output.accept(ModItems.AMS_LENS.get());
+                        output.accept(ModItems.ARC_ELECTRODE.get());
+                        output.accept(ModItems.ARC_ELECTRODE_BURNT.get());
+                        output.accept(ModItems.ARMOR_BATTERY.get());
+                        output.accept(ModItems.ARMOR_BATTERY_MK2.get());
+                        output.accept(ModItems.ARMOR_BATTERY_MK3.get());
+                        output.accept(ModItems.ARMOR_POLISH.get());
+                        output.accept(ModItems.ATTACHMENT_MASK.get());
+                        output.accept(ModItems.ATTACHMENT_MASK_MONO.get());
+                        output.accept(ModItems.AUSTRALIUM_III.get());
+                        output.accept(ModItems.BACK_TESLA.get());
+                        output.accept(ModItems.BALLISTIC_GAUNTLET.get());
+                        output.accept(ModItems.BANDAID.get());
+                        output.accept(ModItems.BATTERY_CREATIVE.get());
+                        output.accept(ModItems.BATTERY_PACK.get());
+                        output.accept(ModItems.BATTERY_POTATO.get());
+                        output.accept(ModItems.BATTERY_POTATOS.get());
+                        output.accept(ModItems.BATTERY_SC.get());
+                        output.accept(ModItems.BLACK_HOLE.get());
+                        output.accept(ModItems.BLADES_ADVANCED_ALLOY.get());
+                        output.accept(ModItems.BLADES_DESH.get());
+                        output.accept(ModItems.BLADES_STEEL.get());
+                        output.accept(ModItems.BLADES_TITANIUM.get());
+                        output.accept(ModItems.BROKEN_ITEM.get());
+                        output.accept(ModItems.CANISTER_EMPTY.get());
+                        output.accept(ModItems.CANISTER_FULL.get());
+                        output.accept(ModItems.CANISTER_NAPALM.get());
+                        output.accept(ModItems.CARD_AOS.get());
+                        output.accept(ModItems.CARD_QOS.get());
+                        output.accept(ModItems.CATALYTIC_CONVERTER.get());
+                        output.accept(ModItems.CELL_ANTI_SCHRABIDIUM.get());
+                        output.accept(ModItems.CELL_ANTIMATTER.get());
+                        output.accept(ModItems.CELL_BALEFIRE.get());
+                        output.accept(ModItems.CELL_DEUTERIUM.get());
+                        output.accept(ModItems.CELL_EMPTY.get());
+                        output.accept(ModItems.CELL_PUF6.get());
+                        output.accept(ModItems.CELL_SAS3.get());
+                        output.accept(ModItems.CELL_TRITIUM.get());
+                        output.accept(ModItems.CELL_UF6.get());
+                        output.accept(ModItems.CHLORINE1.get());
+                        output.accept(ModItems.CHLORINE2.get());
+                        output.accept(ModItems.CHLORINE3.get());
+                        output.accept(ModItems.CHLORINE4.get());
+                        output.accept(ModItems.CHLORINE5.get());
+                        output.accept(ModItems.CHLORINE6.get());
+                        output.accept(ModItems.CHLORINE7.get());
+                        output.accept(ModItems.CHLORINE8.get());
+                        output.accept(ModItems.CLADDING_DESH.get());
+                        output.accept(ModItems.CLADDING_GHIORSIUM.get());
+                        output.accept(ModItems.CLADDING_IRON.get());
+                        output.accept(ModItems.CLADDING_LEAD.get());
+                        output.accept(ModItems.CLADDING_OBSIDIAN.get());
+                        output.accept(ModItems.CLADDING_PAINT.get());
+                        output.accept(ModItems.CLADDING_RUBBER.get());
+                        output.accept(ModItems.CLOUD1.get());
+                        output.accept(ModItems.CLOUD2.get());
+                        output.accept(ModItems.CLOUD3.get());
+                        output.accept(ModItems.CLOUD4.get());
+                        output.accept(ModItems.CLOUD5.get());
+                        output.accept(ModItems.CLOUD6.get());
+                        output.accept(ModItems.CLOUD7.get());
+                        output.accept(ModItems.CLOUD8.get());
+                        output.accept(ModItems.CRYSTAL_XEN.get());
+                        output.accept(ModItems.CUBE_POWER.get());
+                        output.accept(ModItems.DEBRIS_CONCRETE.get());
+                        output.accept(ModItems.DEBRIS_ELEMENT.get());
+                        output.accept(ModItems.DEBRIS_EXCHANGER.get());
+                        output.accept(ModItems.DEBRIS_FUEL.get());
+                        output.accept(ModItems.DEBRIS_GRAPHITE.get());
+                        output.accept(ModItems.DEBRIS_METAL.get());
+                        output.accept(ModItems.DEBRIS_SHRAPNEL.get());
+                        output.accept(ModItems.DEFUSER_GOLD.get());
+                        output.accept(ModItems.DRILLBIT.get());
+                        output.accept(ModItems.ENERGY_CORE.get());
+                        output.accept(ModItems.FLUID_BARREL_EMPTY.get());
+                        output.accept(ModItems.FLUID_BARREL_FULL.get());
+                        output.accept(ModItems.FLUID_BARREL_INFINITE.get());
+                        output.accept(ModItems.FLUID_PACK_EMPTY.get());
+                        output.accept(ModItems.FLUID_PACK_FULL.get());
+                        output.accept(ModItems.FLUID_TANK_EMPTY.get());
+                        output.accept(ModItems.FLUID_TANK_FULL.get());
+                        output.accept(ModItems.FLUID_TANK_LEAD_EMPTY.get());
+                        output.accept(ModItems.FLUID_TANK_LEAD_FULL.get());
+                        output.accept(ModItems.FUEL_ADDITIVE.get());
+                        output.accept(ModItems.FUSE.get());
+                        output.accept(ModItems.FUSION_CORE.get());
+                        output.accept(ModItems.FUSION_SHIELD_CHLOROPHYTE.get());
+                        output.accept(ModItems.FUSION_SHIELD_DESH.get());
+                        output.accept(ModItems.FUSION_SHIELD_TUNGSTEN.get());
+                        output.accept(ModItems.FUSION_SHIELD_VAPORWAVE.get());
+                        output.accept(ModItems.GAS_EMPTY.get());
+                        output.accept(ModItems.GAS_FULL.get());
+                        output.accept(ModItems.GAS_MASK_FILTER.get());
+                        output.accept(ModItems.GAS_MASK_FILTER_COMBO.get());
+                        output.accept(ModItems.GAS_MASK_FILTER_MONO.get());
+                        output.accept(ModItems.GAS_MASK_FILTER_PISS.get());
+                        output.accept(ModItems.GAS_MASK_FILTER_RAG.get());
+                        output.accept(ModItems.GAS_TESTER.get());
+                        output.accept(ModItems.HAZMAT_BOOTS.get());
+                        output.accept(ModItems.HAZMAT_BOOTS_GREY.get());
+                        output.accept(ModItems.HAZMAT_BOOTS_RED.get());
+                        output.accept(ModItems.HAZMAT_HELMET.get());
+                        output.accept(ModItems.HAZMAT_HELMET_GREY.get());
+                        output.accept(ModItems.HAZMAT_HELMET_RED.get());
+                        output.accept(ModItems.HAZMAT_LEGS.get());
+                        output.accept(ModItems.HAZMAT_LEGS_GREY.get());
+                        output.accept(ModItems.HAZMAT_LEGS_RED.get());
+                        output.accept(ModItems.HAZMAT_PAA_BOOTS.get());
+                        output.accept(ModItems.HAZMAT_PAA_HELMET.get());
+                        output.accept(ModItems.HAZMAT_PAA_LEGS.get());
+                        output.accept(ModItems.HAZMAT_PAA_PLATE.get());
+                        output.accept(ModItems.HAZMAT_PLATE.get());
+                        output.accept(ModItems.HAZMAT_PLATE_GREY.get());
+                        output.accept(ModItems.HAZMAT_PLATE_RED.get());
+                        output.accept(ModItems.HEV_BATTERY.get());
+                        output.accept(ModItems.HORSESHOE_MAGNET.get());
+                        output.accept(ModItems.ICF_PELLET.get());
+                        output.accept(ModItems.ICF_PELLET_DEPLETED.get());
+                        output.accept(ModItems.ICF_PELLET_EMPTY.get());
+                        output.accept(ModItems.INDUSTRIAL_MAGNET.get());
+                        output.accept(ModItems.INF_WATER.get());
+                        output.accept(ModItems.INF_WATER_MK2.get());
+                        output.accept(ModItems.INSERT_DOXIUM.get());
+                        output.accept(ModItems.INSERT_DU.get());
+                        output.accept(ModItems.INSERT_ERA.get());
+                        output.accept(ModItems.INSERT_ESAPI.get());
+                        output.accept(ModItems.INSERT_GHIORSIUM.get());
+                        output.accept(ModItems.INSERT_KEVLAR.get());
+                        output.accept(ModItems.INSERT_POLONIUM.get());
+                        output.accept(ModItems.INSERT_SAPI.get());
+                        output.accept(ModItems.INSERT_STEEL.get());
+                        output.accept(ModItems.INSERT_XSAPI.get());
+                        output.accept(ModItems.INSERT_YHARONITE.get());
+                        output.accept(ModItems.LASER_CRYSTAL_BISMUTH.get());
+                        output.accept(ModItems.LASER_CRYSTAL_CMB.get());
+                        output.accept(ModItems.LASER_CRYSTAL_CO2.get());
+                        output.accept(ModItems.LASER_CRYSTAL_DIGAMMA.get());
+                        output.accept(ModItems.LASER_CRYSTAL_DNT.get());
+                        output.accept(ModItems.LIQUIDATOR_BOOTS.get());
+                        output.accept(ModItems.LIQUIDATOR_HELMET.get());
+                        output.accept(ModItems.LIQUIDATOR_LEGS.get());
+                        output.accept(ModItems.LIQUIDATOR_PLATE.get());
+                        output.accept(ModItems.LODESTONE.get());
+                        output.accept(ModItems.MASK_OF_INFAMY.get());
+                        output.accept(ModItems.MEDAL_LIQUIDATOR.get());
+                        output.accept(ModItems.MELTDOWN_TOOL.get());
+                        output.accept(ModItems.MEMORY.get());
+                        output.accept(ModItems.METEOR_CHARM.get());
+                        output.accept(ModItems.MOLD.get());
+                        output.accept(ModItems.MOLD_BASE.get());
+                        output.accept(ModItems.MYSTERYSHOVEL.get());
+                        output.accept(ModItems.NEUTRINO_LENS.get());
+                        output.accept(ModItems.NIGHT_VISION.get());
+                        output.accept(ModItems.NOTHING.get());
+                        output.accept(ModItems.ORANGE1.get());
+                        output.accept(ModItems.ORANGE2.get());
+                        output.accept(ModItems.ORANGE3.get());
+                        output.accept(ModItems.ORANGE4.get());
+                        output.accept(ModItems.ORANGE5.get());
+                        output.accept(ModItems.ORANGE6.get());
+                        output.accept(ModItems.ORANGE7.get());
+                        output.accept(ModItems.ORANGE8.get());
+                        output.accept(ModItems.OVERFUSE.get());
+                        output.accept(ModItems.PA_COIL.get());
+                        output.accept(ModItems.PADS_RUBBER.get());
+                        output.accept(ModItems.PADS_SLIME.get());
+                        output.accept(ModItems.PADS_STATIC.get());
+                        output.accept(ModItems.PART_BERYLLIUM.get());
+                        output.accept(ModItems.PART_CARBON.get());
+                        output.accept(ModItems.PART_COPPER.get());
+                        output.accept(ModItems.PART_LITHIUM.get());
+                        output.accept(ModItems.PART_PLUTONIUM.get());
+                        output.accept(ModItems.PARTICLE_AMAT.get());
+                        output.accept(ModItems.PARTICLE_ASCHRAB.get());
+                        output.accept(ModItems.PARTICLE_COPPER.get());
+                        output.accept(ModItems.PARTICLE_DARK.get());
+                        output.accept(ModItems.PARTICLE_DIGAMMA.get());
+                        output.accept(ModItems.PARTICLE_EMPTY.get());
+                        output.accept(ModItems.PARTICLE_HIGGS.get());
+                        output.accept(ModItems.PARTICLE_HYDROGEN.get());
+                        output.accept(ModItems.PARTICLE_LEAD.get());
+                        output.accept(ModItems.PARTICLE_LUTECE.get());
+                        output.accept(ModItems.PARTICLE_MUON.get());
+                        output.accept(ModItems.PARTICLE_SPARKTICLE.get());
+                        output.accept(ModItems.PARTICLE_STRANGE.get());
+                        output.accept(ModItems.PARTICLE_TACHYON.get());
+                        output.accept(ModItems.PC1.get());
+                        output.accept(ModItems.PC2.get());
+                        output.accept(ModItems.PC3.get());
+                        output.accept(ModItems.PC4.get());
+                        output.accept(ModItems.PC5.get());
+                        output.accept(ModItems.PC6.get());
+                        output.accept(ModItems.PC7.get());
+                        output.accept(ModItems.PC8.get());
+                        output.accept(ModItems.PELLET_ANTIMATTER.get());
+                        output.accept(ModItems.PELLET_RTG.get());
+                        output.accept(ModItems.PELLET_RTG_ACTINIUM.get());
+                        output.accept(ModItems.PELLET_RTG_AMERICIUM.get());
+                        output.accept(ModItems.PELLET_RTG_COBALT.get());
+                        output.accept(ModItems.PELLET_RTG_DEPLETED.get());
+                        output.accept(ModItems.PELLET_RTG_GOLD.get());
+                        output.accept(ModItems.PELLET_RTG_LEAD.get());
+                        output.accept(ModItems.PELLET_RTG_POLONIUM.get());
+                        output.accept(ModItems.PELLET_RTG_RADIUM.get());
+                        output.accept(ModItems.PELLET_RTG_STRONTIUM.get());
+                        output.accept(ModItems.PELLET_RTG_WEAK.get());
+                        output.accept(ModItems.PILE_ROD_BORON.get());
+                        output.accept(ModItems.PILE_ROD_DETECTOR.get());
+                        output.accept(ModItems.PILE_ROD_LITHIUM.get());
+                        output.accept(ModItems.PILE_ROD_PLUTONIUM.get());
+                        output.accept(ModItems.PILE_ROD_PU239.get());
+                        output.accept(ModItems.PILE_ROD_SOURCE.get());
+                        output.accept(ModItems.PILE_ROD_URANIUM.get());
+                        output.accept(ModItems.PIPETTE.get());
+                        output.accept(ModItems.PIPETTE_BORON.get());
+                        output.accept(ModItems.PIPETTE_LABORATORY.get());
+                        output.accept(ModItems.PISTON_SELENIUM.get());
+                        output.accept(ModItems.PISTON_SET.get());
+                        output.accept(ModItems.PLATE_FUEL_MOX.get());
+                        output.accept(ModItems.PLATE_FUEL_PU238BE.get());
+                        output.accept(ModItems.PLATE_FUEL_PU239.get());
+                        output.accept(ModItems.PLATE_FUEL_RA226BE.get());
+                        output.accept(ModItems.PLATE_FUEL_SA326.get());
+                        output.accept(ModItems.PLATE_FUEL_U233.get());
+                        output.accept(ModItems.PLATE_FUEL_U235.get());
+                        output.accept(ModItems.PROTECTION_CHARM.get());
+                        output.accept(ModItems.PWR_FUEL.get());
+                        output.accept(ModItems.PWR_FUEL_DEPLETED.get());
+                        output.accept(ModItems.PWR_FUEL_HOT.get());
+                        output.accept(ModItems.PWR_PRINTER.get());
+                        output.accept(ModItems.RBMK_FUEL_EMPTY.get());
+                        output.accept(ModItems.RBMK_LID.get());
+                        output.accept(ModItems.RBMK_LID_GLASS.get());
+                        output.accept(ModItems.REACHER.get());
+                        output.accept(ModItems.ROD_DUAL_EMPTY.get());
+                        output.accept(ModItems.ROD_EMPTY.get());
+                        output.accept(ModItems.ROD_QUAD_EMPTY.get());
+                        output.accept(ModItems.ROD_ZIRNOX_EMPTY.get());
+                        output.accept(ModItems.ROD_ZIRNOX_LES_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_MOX_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_NATURAL_URANIUM_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_PLUTONIUM_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_THORIUM_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_TRITIUM.get());
+                        output.accept(ModItems.ROD_ZIRNOX_U233_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_U235_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_URANIUM_FUEL_DEPLETED.get());
+                        output.accept(ModItems.ROD_ZIRNOX_ZFB_MOX_DEPLETED.get());
+                        output.accept(ModItems.SERVO_SET.get());
+                        output.accept(ModItems.SERVO_SET_DESH.get());
+                        output.accept(ModItems.SHACKLES.get());
+                        output.accept(ModItems.SINGULARITY.get());
+                        output.accept(ModItems.SINGULARITY_COUNTER_RESONANT.get());
+                        output.accept(ModItems.SINGULARITY_SPARK.get());
+                        output.accept(ModItems.SINGULARITY_SUPER_HEATED.get());
+                        output.accept(ModItems.SIPHON.get());
+                        output.accept(ModItems.STAMP_357.get());
+                        output.accept(ModItems.STAMP_44.get());
+                        output.accept(ModItems.STAMP_50.get());
+                        output.accept(ModItems.STAMP_9.get());
+                        output.accept(ModItems.STAMP_DESH_357.get());
+                        output.accept(ModItems.STAMP_DESH_44.get());
+                        output.accept(ModItems.STAMP_DESH_50.get());
+                        output.accept(ModItems.STAMP_DESH_9.get());
+                        output.accept(ModItems.STAMP_DESH_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_DESH_FLAT.get());
+                        output.accept(ModItems.STAMP_DESH_PLATE.get());
+                        output.accept(ModItems.STAMP_DESH_WIRE.get());
+                        output.accept(ModItems.STAMP_IRON_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_IRON_FLAT.get());
+                        output.accept(ModItems.STAMP_IRON_PLATE.get());
+                        output.accept(ModItems.STAMP_IRON_WIRE.get());
+                        output.accept(ModItems.STAMP_OBSIDIAN_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_OBSIDIAN_FLAT.get());
+                        output.accept(ModItems.STAMP_OBSIDIAN_PLATE.get());
+                        output.accept(ModItems.STAMP_OBSIDIAN_WIRE.get());
+                        output.accept(ModItems.STAMP_STEEL_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_STEEL_FLAT.get());
+                        output.accept(ModItems.STAMP_STEEL_PLATE.get());
+                        output.accept(ModItems.STAMP_STEEL_WIRE.get());
+                        output.accept(ModItems.STAMP_STONE_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_STONE_FLAT.get());
+                        output.accept(ModItems.STAMP_STONE_PLATE.get());
+                        output.accept(ModItems.STAMP_STONE_WIRE.get());
+                        output.accept(ModItems.STAMP_TITANIUM_CIRCUIT.get());
+                        output.accept(ModItems.STAMP_TITANIUM_FLAT.get());
+                        output.accept(ModItems.STAMP_TITANIUM_PLATE.get());
+                        output.accept(ModItems.STAMP_TITANIUM_WIRE.get());
+                        output.accept(ModItems.THERMO_ELEMENT.get());
+                        output.accept(ModItems.UPGRADE_5G.get());
+                        output.accept(ModItems.UPGRADE_AFTERBURN_1.get());
+                        output.accept(ModItems.UPGRADE_AFTERBURN_2.get());
+                        output.accept(ModItems.UPGRADE_AFTERBURN_3.get());
+                        output.accept(ModItems.UPGRADE_CENTRIFUGE.get());
+                        output.accept(ModItems.UPGRADE_CRYSTALLIZER.get());
+                        output.accept(ModItems.UPGRADE_EFFECT_1.get());
+                        output.accept(ModItems.UPGRADE_EFFECT_2.get());
+                        output.accept(ModItems.UPGRADE_EFFECT_3.get());
+                        output.accept(ModItems.UPGRADE_EJECTOR.get());
+                        output.accept(ModItems.UPGRADE_FORTUNE_1.get());
+                        output.accept(ModItems.UPGRADE_FORTUNE_2.get());
+                        output.accept(ModItems.UPGRADE_FORTUNE_3.get());
+                        output.accept(ModItems.UPGRADE_GC_SPEED.get());
+                        output.accept(ModItems.UPGRADE_HEALTH.get());
+                        output.accept(ModItems.UPGRADE_NULLIFIER.get());
+                        output.accept(ModItems.UPGRADE_OVERDRIVE_1.get());
+                        output.accept(ModItems.UPGRADE_OVERDRIVE_2.get());
+                        output.accept(ModItems.UPGRADE_OVERDRIVE_3.get());
+                        output.accept(ModItems.UPGRADE_POWER_1.get());
+                        output.accept(ModItems.UPGRADE_POWER_2.get());
+                        output.accept(ModItems.UPGRADE_POWER_3.get());
+                        output.accept(ModItems.UPGRADE_RADIUS.get());
+                        output.accept(ModItems.UPGRADE_SCREM.get());
+                        output.accept(ModItems.UPGRADE_SHREDDER.get());
+                        output.accept(ModItems.UPGRADE_SMELTER.get());
+                        output.accept(ModItems.UPGRADE_SPEED_1.get());
+                        output.accept(ModItems.UPGRADE_SPEED_2.get());
+                        output.accept(ModItems.UPGRADE_SPEED_3.get());
+                        output.accept(ModItems.UPGRADE_STACK.get());
+                        output.accept(ModItems.WATCH.get());
+                        output.accept(ModItems.WATZ_PELLET.get());
+                        output.accept(ModItems.WATZ_PELLET_DEPLETED.get());
                     })
                     .build());
 
-    // =========================
-    // 🧪 TEMPLATES / DEBUG
-    // =========================
-    public static final RegistryObject<CreativeModeTab> TEMPLATE_TAB =
-            TABS.register("template", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("tab.hbm.template"))
-                    .icon(() -> new ItemStack(ModItems.TEST_ITEM.get()))
+    // ──────────────────────────────────────────────────────────────────────
+    // WEAPONTAB  (162 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> WEAPON_TAB =
+            TABS.register("weapons", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("tab.hbm.weapons"))
+                    .icon(() -> new ItemStack(ModItems.CHAINSAW.get()))
                     .displayItems((params, output) -> {
-                        output.accept(ModItems.TEST_ITEM.get());
+                        output.accept(ModItems.ACETYLENE_TORCH.get());
+                        output.accept(ModItems.ALLOY_AXE.get());
+                        output.accept(ModItems.ALLOY_HOE.get());
+                        output.accept(ModItems.ALLOY_PICKAXE.get());
+                        output.accept(ModItems.ALLOY_SHOVEL.get());
+                        output.accept(ModItems.ALLOY_SWORD.get());
+                        output.accept(ModItems.AMMO_ARTY.get());
+                        output.accept(ModItems.AMMO_CONTAINER.get());
+                        output.accept(ModItems.AMMO_DGK.get());
+                        output.accept(ModItems.AMMO_HIMARS.get());
+                        output.accept(ModItems.AMMO_MISC.get());
+                        output.accept(ModItems.BISMUTH_AXE.get());
+                        output.accept(ModItems.BISMUTH_PICKAXE.get());
+                        output.accept(ModItems.BLOWTORCH.get());
+                        output.accept(ModItems.BOLTGUN.get());
+                        output.accept(ModItems.CENTRI_STICK.get());
+                        output.accept(ModItems.CHAINSAW.get());
+                        output.accept(ModItems.CHEMISTRY_SET.get());
+                        output.accept(ModItems.CHEMISTRY_SET_BORON.get());
+                        output.accept(ModItems.CHERNOBYLSIGN.get());
+                        output.accept(ModItems.CHLOROPHYTE_AXE.get());
+                        output.accept(ModItems.CHLOROPHYTE_PICKAXE.get());
+                        output.accept(ModItems.CMB_AXE.get());
+                        output.accept(ModItems.CMB_HOE.get());
+                        output.accept(ModItems.CMB_PICKAXE.get());
+                        output.accept(ModItems.CMB_SHOVEL.get());
+                        output.accept(ModItems.CMB_SWORD.get());
+                        output.accept(ModItems.COBALT_AXE.get());
+                        output.accept(ModItems.COBALT_DECORATED_AXE.get());
+                        output.accept(ModItems.COBALT_DECORATED_HOE.get());
+                        output.accept(ModItems.COBALT_DECORATED_PICKAXE.get());
+                        output.accept(ModItems.COBALT_DECORATED_SHOVEL.get());
+                        output.accept(ModItems.COBALT_DECORATED_SWORD.get());
+                        output.accept(ModItems.COBALT_HOE.get());
+                        output.accept(ModItems.COBALT_PICKAXE.get());
+                        output.accept(ModItems.COBALT_SHOVEL.get());
+                        output.accept(ModItems.COBALT_SWORD.get());
+                        output.accept(ModItems.CROWBAR.get());
+                        output.accept(ModItems.CRUCIBLE.get());
+                        output.accept(ModItems.DESH_AXE.get());
+                        output.accept(ModItems.DESH_HOE.get());
+                        output.accept(ModItems.DESH_PICKAXE.get());
+                        output.accept(ModItems.DESH_SHOVEL.get());
+                        output.accept(ModItems.DESH_SWORD.get());
+                        output.accept(ModItems.DIAMOND_GAVEL.get());
+                        output.accept(ModItems.DISPERSER_CANISTER.get());
+                        output.accept(ModItems.DISPERSER_CANISTER_EMPTY.get());
+                        output.accept(ModItems.DNT_SWORD.get());
+                        output.accept(ModItems.DWARVEN_PICKAXE.get());
+                        output.accept(ModItems.ELEC_AXE.get());
+                        output.accept(ModItems.ELEC_PICKAXE.get());
+                        output.accept(ModItems.ELEC_SHOVEL.get());
+                        output.accept(ModItems.ELEC_SWORD.get());
+                        output.accept(ModItems.GLYPHID_GLAND.get());
+                        output.accept(ModItems.GLYPHID_GLAND_EMPTY.get());
+                        output.accept(ModItems.GRENADE_ASCHRAB.get());
+                        output.accept(ModItems.GRENADE_BLACK_HOLE.get());
+                        output.accept(ModItems.GRENADE_BREACH.get());
+                        output.accept(ModItems.GRENADE_BURST.get());
+                        output.accept(ModItems.GRENADE_CLOUD.get());
+                        output.accept(ModItems.GRENADE_CLUSTER.get());
+                        output.accept(ModItems.GRENADE_ELECTRIC.get());
+                        output.accept(ModItems.GRENADE_FIRE.get());
+                        output.accept(ModItems.GRENADE_FLARE.get());
+                        output.accept(ModItems.GRENADE_FRAG.get());
+                        output.accept(ModItems.GRENADE_GAS.get());
+                        output.accept(ModItems.GRENADE_GASCAN.get());
+                        output.accept(ModItems.GRENADE_GENERIC.get());
+                        output.accept(ModItems.GRENADE_IF_BOUNCY.get());
+                        output.accept(ModItems.GRENADE_IF_BRIMSTONE.get());
+                        output.accept(ModItems.GRENADE_IF_CONCUSSION.get());
+                        output.accept(ModItems.GRENADE_IF_GENERIC.get());
+                        output.accept(ModItems.GRENADE_IF_HE.get());
+                        output.accept(ModItems.GRENADE_IF_HOPWIRE.get());
+                        output.accept(ModItems.GRENADE_IF_IMPACT.get());
+                        output.accept(ModItems.GRENADE_IF_INCENDIARY.get());
+                        output.accept(ModItems.GRENADE_IF_MYSTERY.get());
+                        output.accept(ModItems.GRENADE_IF_NULL.get());
+                        output.accept(ModItems.GRENADE_IF_SPARK.get());
+                        output.accept(ModItems.GRENADE_IF_STICKY.get());
+                        output.accept(ModItems.GRENADE_IF_TOXIC.get());
+                        output.accept(ModItems.GRENADE_KIT.get());
+                        output.accept(ModItems.GRENADE_KYIV.get());
+                        output.accept(ModItems.GRENADE_LEMON.get());
+                        output.accept(ModItems.GRENADE_MIRV.get());
+                        output.accept(ModItems.GRENADE_MK2.get());
+                        output.accept(ModItems.GRENADE_NUCLEAR.get());
+                        output.accept(ModItems.GRENADE_NUKE.get());
+                        output.accept(ModItems.GRENADE_PLASMA.get());
+                        output.accept(ModItems.GRENADE_POISON.get());
+                        output.accept(ModItems.GRENADE_PULSE.get());
+                        output.accept(ModItems.GRENADE_SCHRABIDIUM.get());
+                        output.accept(ModItems.GRENADE_SHRAPNEL.get());
+                        output.accept(ModItems.GRENADE_SMART.get());
+                        output.accept(ModItems.GRENADE_STRONG.get());
+                        output.accept(ModItems.GRENADE_TAU.get());
+                        output.accept(ModItems.GRENADE_ZOMG.get());
+                        output.accept(ModItems.GUN_B92.get());
+                        output.accept(ModItems.GUN_B92_AMMO.get());
+                        output.accept(ModItems.HAND_DRILL.get());
+                        output.accept(ModItems.HAND_DRILL_DESH.get());
+                        output.accept(ModItems.LEAD_GAVEL.get());
+                        output.accept(ModItems.MEMESPOON.get());
+                        output.accept(ModItems.MESE_AXE.get());
+                        output.accept(ModItems.MESE_GAVEL.get());
+                        output.accept(ModItems.MESE_PICKAXE.get());
+                        output.accept(ModItems.METEORITE_SWORD.get());
+                        output.accept(ModItems.METEORITE_SWORD_ALLOYED.get());
+                        output.accept(ModItems.METEORITE_SWORD_BALEFUL.get());
+                        output.accept(ModItems.METEORITE_SWORD_BRED.get());
+                        output.accept(ModItems.METEORITE_SWORD_ETCHED.get());
+                        output.accept(ModItems.METEORITE_SWORD_FUSED.get());
+                        output.accept(ModItems.METEORITE_SWORD_HARDENED.get());
+                        output.accept(ModItems.METEORITE_SWORD_IRRADIATED.get());
+                        output.accept(ModItems.METEORITE_SWORD_MACHINED.get());
+                        output.accept(ModItems.METEORITE_SWORD_REFORGED.get());
+                        output.accept(ModItems.METEORITE_SWORD_SEARED.get());
+                        output.accept(ModItems.METEORITE_SWORD_TREATED.get());
+                        output.accept(ModItems.NUCLEAR_WASTE_PEARL.get());
+                        output.accept(ModItems.PIPE_LEAD.get());
+                        output.accept(ModItems.REER_GRAAR.get());
+                        output.accept(ModItems.SCHRABIDIUM_AXE.get());
+                        output.accept(ModItems.SCHRABIDIUM_HAMMER.get());
+                        output.accept(ModItems.SCHRABIDIUM_HOE.get());
+                        output.accept(ModItems.SCHRABIDIUM_PICKAXE.get());
+                        output.accept(ModItems.SCHRABIDIUM_SHOVEL.get());
+                        output.accept(ModItems.SCHRABIDIUM_SWORD.get());
+                        output.accept(ModItems.SCREWDRIVER.get());
+                        output.accept(ModItems.SCREWDRIVER_DESH.get());
+                        output.accept(ModItems.SHIMMER_AXE.get());
+                        output.accept(ModItems.SHIMMER_SLEDGE.get());
+                        output.accept(ModItems.SMASHING_HAMMER.get());
+                        output.accept(ModItems.SOPSIGN.get());
+                        output.accept(ModItems.STARMETAL_AXE.get());
+                        output.accept(ModItems.STARMETAL_HOE.get());
+                        output.accept(ModItems.STARMETAL_PICKAXE.get());
+                        output.accept(ModItems.STARMETAL_SHOVEL.get());
+                        output.accept(ModItems.STARMETAL_SWORD.get());
+                        output.accept(ModItems.STEEL_AXE.get());
+                        output.accept(ModItems.STEEL_HOE.get());
+                        output.accept(ModItems.STEEL_PICKAXE.get());
+                        output.accept(ModItems.STEEL_SHOVEL.get());
+                        output.accept(ModItems.STEEL_SWORD.get());
+                        output.accept(ModItems.STICK_C4.get());
+                        output.accept(ModItems.STICK_DYNAMITE.get());
+                        output.accept(ModItems.STICK_DYNAMITE_FISHING.get());
+                        output.accept(ModItems.STICK_SEMTEX.get());
+                        output.accept(ModItems.STICK_TNT.get());
+                        output.accept(ModItems.STOPSIGN.get());
+                        output.accept(ModItems.TITANIUM_AXE.get());
+                        output.accept(ModItems.TITANIUM_HOE.get());
+                        output.accept(ModItems.TITANIUM_PICKAXE.get());
+                        output.accept(ModItems.TITANIUM_SHOVEL.get());
+                        output.accept(ModItems.TITANIUM_SWORD.get());
+                        output.accept(ModItems.TURRET_CHIP.get());
+                        output.accept(ModItems.ULLAPOOL_CABER.get());
+                        output.accept(ModItems.VOLCANIC_AXE.get());
+                        output.accept(ModItems.VOLCANIC_PICKAXE.get());
+                        output.accept(ModItems.WEAPONIZED_STARBLASTER_CELL.get());
+                        output.accept(ModItems.WOOD_GAVEL.get());
+                        output.accept(ModItems.WRENCH_ARCHINEER.get());
+                        output.accept(ModItems.WRENCH_FLIPPED.get());
                     })
                     .build());
+
+    // ──────────────────────────────────────────────────────────────────────
+    // MISSILETAB  (113 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> MISSILE_TAB =
+            TABS.register("missiles", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("tab.hbm.missiles"))
+                    .icon(() -> new ItemStack(ModItems.MISSILE_NUCLEAR.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.DESIGNATOR.get());
+                        output.accept(ModItems.DESIGNATOR_ARTY_RANGE.get());
+                        output.accept(ModItems.DESIGNATOR_MANUAL.get());
+                        output.accept(ModItems.DESIGNATOR_RANGE.get());
+                        output.accept(ModItems.LOOT_10.get());
+                        output.accept(ModItems.LOOT_15.get());
+                        output.accept(ModItems.LOOT_MISC.get());
+                        output.accept(ModItems.MISSILE_ANTI_BALLISTIC.get());
+                        output.accept(ModItems.MISSILE_BHOLE.get());
+                        output.accept(ModItems.MISSILE_BURST.get());
+                        output.accept(ModItems.MISSILE_BUSTER.get());
+                        output.accept(ModItems.MISSILE_BUSTER_STRONG.get());
+                        output.accept(ModItems.MISSILE_CLUSTER.get());
+                        output.accept(ModItems.MISSILE_CLUSTER_STRONG.get());
+                        output.accept(ModItems.MISSILE_DECOY.get());
+                        output.accept(ModItems.MISSILE_DOOMSDAY.get());
+                        output.accept(ModItems.MISSILE_DOOMSDAY_RUSTED.get());
+                        output.accept(ModItems.MISSILE_DRILL.get());
+                        output.accept(ModItems.MISSILE_EMP.get());
+                        output.accept(ModItems.MISSILE_EMP_STRONG.get());
+                        output.accept(ModItems.MISSILE_GENERIC.get());
+                        output.accept(ModItems.MISSILE_INCENDIARY.get());
+                        output.accept(ModItems.MISSILE_INCENDIARY_STRONG.get());
+                        output.accept(ModItems.MISSILE_INFERNO.get());
+                        output.accept(ModItems.MISSILE_KIT.get());
+                        output.accept(ModItems.MISSILE_MICRO.get());
+                        output.accept(ModItems.MISSILE_NUCLEAR.get());
+                        output.accept(ModItems.MISSILE_NUCLEAR_CLUSTER.get());
+                        output.accept(ModItems.MISSILE_RAIN.get());
+                        output.accept(ModItems.MISSILE_SCHRABIDIUM.get());
+                        output.accept(ModItems.MISSILE_SHUTTLE.get());
+                        output.accept(ModItems.MISSILE_SOYUZ.get());
+                        output.accept(ModItems.MISSILE_SOYUZ_LANDER.get());
+                        output.accept(ModItems.MISSILE_STEALTH.get());
+                        output.accept(ModItems.MISSILE_STRONG.get());
+                        output.accept(ModItems.MISSILE_TAINT.get());
+                        output.accept(ModItems.MISSILE_VOLCANO.get());
+                        output.accept(ModItems.MP_CHIP_1.get());
+                        output.accept(ModItems.MP_CHIP_2.get());
+                        output.accept(ModItems.MP_CHIP_3.get());
+                        output.accept(ModItems.MP_CHIP_4.get());
+                        output.accept(ModItems.MP_CHIP_5.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_15_BALEFIRE.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_15_HYDROGEN.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_15_KEROSENE.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_15_SOLID.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_KEROSENE.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_LONG_KEROSENE.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_LONG_SOLID.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_SOLID.get());
+                        output.accept(ModItems.MP_FUSELAGE_10_XENON.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_20_KEROSENE.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_20_SOLID.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_BALEFIRE.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_HYDROGEN.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_KEROSENE.get());
+                        output.accept(ModItems.MP_FUSELAGE_15_SOLID.get());
+                        output.accept(ModItems.MP_STABILITY_10_CRUISE.get());
+                        output.accept(ModItems.MP_STABILITY_10_FLAT.get());
+                        output.accept(ModItems.MP_STABILITY_10_SPACE.get());
+                        output.accept(ModItems.MP_STABILITY_15_FLAT.get());
+                        output.accept(ModItems.MP_STABILITY_15_SOYUZ.get());
+                        output.accept(ModItems.MP_STABILITY_15_THIN.get());
+                        output.accept(ModItems.MP_STABILITY_20_FLAT.get());
+                        output.accept(ModItems.MP_THRUSTER_10_KEROSENE.get());
+                        output.accept(ModItems.MP_THRUSTER_10_SOLID.get());
+                        output.accept(ModItems.MP_THRUSTER_10_XENON.get());
+                        output.accept(ModItems.MP_THRUSTER_15_BALEFIRE.get());
+                        output.accept(ModItems.MP_THRUSTER_15_BALEFIRE_LARGE.get());
+                        output.accept(ModItems.MP_THRUSTER_15_BALEFIRE_LARGE_RAD.get());
+                        output.accept(ModItems.MP_THRUSTER_15_BALEFIRE_SHORT.get());
+                        output.accept(ModItems.MP_THRUSTER_15_HYDROGEN.get());
+                        output.accept(ModItems.MP_THRUSTER_15_HYDROGEN_DUAL.get());
+                        output.accept(ModItems.MP_THRUSTER_15_KEROSENE.get());
+                        output.accept(ModItems.MP_THRUSTER_15_KEROSENE_DUAL.get());
+                        output.accept(ModItems.MP_THRUSTER_15_KEROSENE_TRIPLE.get());
+                        output.accept(ModItems.MP_THRUSTER_15_SOLID.get());
+                        output.accept(ModItems.MP_THRUSTER_15_SOLID_HEXDECUPLE.get());
+                        output.accept(ModItems.MP_THRUSTER_20_KEROSENE.get());
+                        output.accept(ModItems.MP_THRUSTER_20_KEROSENE_DUAL.get());
+                        output.accept(ModItems.MP_THRUSTER_20_KEROSENE_TRIPLE.get());
+                        output.accept(ModItems.MP_THRUSTER_20_SOLID.get());
+                        output.accept(ModItems.MP_THRUSTER_20_SOLID_MULTI.get());
+                        output.accept(ModItems.MP_THRUSTER_20_SOLID_MULTIER.get());
+                        output.accept(ModItems.MP_WARHEAD_10_BUSTER.get());
+                        output.accept(ModItems.MP_WARHEAD_10_CLOUD.get());
+                        output.accept(ModItems.MP_WARHEAD_10_HE.get());
+                        output.accept(ModItems.MP_WARHEAD_10_INCENDIARY.get());
+                        output.accept(ModItems.MP_WARHEAD_10_NUCLEAR.get());
+                        output.accept(ModItems.MP_WARHEAD_10_NUCLEAR_LARGE.get());
+                        output.accept(ModItems.MP_WARHEAD_10_TAINT.get());
+                        output.accept(ModItems.MP_WARHEAD_15_BALEFIRE.get());
+                        output.accept(ModItems.MP_WARHEAD_15_BOXCAR.get());
+                        output.accept(ModItems.MP_WARHEAD_15_HE.get());
+                        output.accept(ModItems.MP_WARHEAD_15_INCENDIARY.get());
+                        output.accept(ModItems.MP_WARHEAD_15_N2.get());
+                        output.accept(ModItems.MP_WARHEAD_15_NUCLEAR.get());
+                        output.accept(ModItems.MP_WARHEAD_15_TURBINE.get());
+                        output.accept(ModItems.RANGEFINDER.get());
+                        output.accept(ModItems.SAT_CHIP.get());
+                        output.accept(ModItems.SAT_COORD.get());
+                        output.accept(ModItems.SAT_DESIGNATOR.get());
+                        output.accept(ModItems.SAT_FOEQ.get());
+                        output.accept(ModItems.SAT_GERALD.get());
+                        output.accept(ModItems.SAT_INTERFACE.get());
+                        output.accept(ModItems.SAT_LASER.get());
+                        output.accept(ModItems.SAT_LUNAR_MINER.get());
+                        output.accept(ModItems.SAT_MAPPER.get());
+                        output.accept(ModItems.SAT_MINER.get());
+                        output.accept(ModItems.SAT_RADAR.get());
+                        output.accept(ModItems.SAT_RELAY.get());
+                        output.accept(ModItems.SAT_RESONATOR.get());
+                        output.accept(ModItems.SAT_SCANNER.get());
+                    })
+                    .build());
+
+    // ──────────────────────────────────────────────────────────────────────
+    // NUKETAB  (52 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> NUKE_TAB =
+            TABS.register("nukes", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("tab.hbm.nukes"))
+                    .icon(() -> new ItemStack(ModItems.FLEIJA_CORE.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.BATTERY_SPARK.get());
+                        output.accept(ModItems.BATTERY_TRIXITE.get());
+                        output.accept(ModItems.BOY_BULLET.get());
+                        output.accept(ModItems.BOY_IGNITER.get());
+                        output.accept(ModItems.BOY_KIT.get());
+                        output.accept(ModItems.BOY_PROPELLANT.get());
+                        output.accept(ModItems.BOY_SHIELDING.get());
+                        output.accept(ModItems.BOY_TARGET.get());
+                        output.accept(ModItems.CUSTOM_AMAT.get());
+                        output.accept(ModItems.CUSTOM_DIRTY.get());
+                        output.accept(ModItems.CUSTOM_FALL.get());
+                        output.accept(ModItems.CUSTOM_HYDRO.get());
+                        output.accept(ModItems.CUSTOM_KIT.get());
+                        output.accept(ModItems.CUSTOM_NUKE.get());
+                        output.accept(ModItems.CUSTOM_SCHRAB.get());
+                        output.accept(ModItems.CUSTOM_TNT.get());
+                        output.accept(ModItems.DEFUSER.get());
+                        output.accept(ModItems.DEMON_CORE_CLOSED.get());
+                        output.accept(ModItems.DEMON_CORE_OPEN.get());
+                        output.accept(ModItems.DETONATOR.get());
+                        output.accept(ModItems.DETONATOR_DE.get());
+                        output.accept(ModItems.DETONATOR_DEADMAN.get());
+                        output.accept(ModItems.DETONATOR_LASER.get());
+                        output.accept(ModItems.DETONATOR_MULTI.get());
+                        output.accept(ModItems.EARLY_EXPLOSIVE_LENSES.get());
+                        output.accept(ModItems.EGG_BALEFIRE.get());
+                        output.accept(ModItems.EGG_BALEFIRE_SHARD.get());
+                        output.accept(ModItems.EXPLOSIVE_LENSES.get());
+                        output.accept(ModItems.FLEIJA_CORE.get());
+                        output.accept(ModItems.FLEIJA_IGNITER.get());
+                        output.accept(ModItems.FLEIJA_KIT.get());
+                        output.accept(ModItems.FLEIJA_PROPELLANT.get());
+                        output.accept(ModItems.GADGET_CORE.get());
+                        output.accept(ModItems.GADGET_KIT.get());
+                        output.accept(ModItems.GADGET_WIREING.get());
+                        output.accept(ModItems.IGNITER.get());
+                        output.accept(ModItems.MAN_CORE.get());
+                        output.accept(ModItems.MAN_IGNITER.get());
+                        output.accept(ModItems.MAN_KIT.get());
+                        output.accept(ModItems.MIKE_COOLING_UNIT.get());
+                        output.accept(ModItems.MIKE_CORE.get());
+                        output.accept(ModItems.MIKE_DEUT.get());
+                        output.accept(ModItems.MIKE_KIT.get());
+                        output.accept(ModItems.MULTI_KIT.get());
+                        output.accept(ModItems.N2_CHARGE.get());
+                        output.accept(ModItems.PROTOTYPE_KIT.get());
+                        output.accept(ModItems.SOLINIUM_CORE.get());
+                        output.accept(ModItems.SOLINIUM_IGNITER.get());
+                        output.accept(ModItems.SOLINIUM_KIT.get());
+                        output.accept(ModItems.SOLINIUM_PROPELLANT.get());
+                        output.accept(ModItems.TSAR_CORE.get());
+                        output.accept(ModItems.TSAR_KIT.get());
+                    })
+                    .build());
+
+    // ──────────────────────────────────────────────────────────────────────
+    // CONSUMABLETAB  (181 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> CONSUMABLE_TAB =
+            TABS.register("consumables", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("tab.hbm.consumables"))
+                    .icon(() -> new ItemStack(ModItems.CANNED_CONSERVE.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.AMMO_BAG.get());
+                        output.accept(ModItems.AMMO_BAG_INFINITE.get());
+                        output.accept(ModItems.ANALYSIS_TOOL.get());
+                        output.accept(ModItems.ANCHOR_REMOTE.get());
+                        output.accept(ModItems.APPLE_EUPHEMIUM.get());
+                        output.accept(ModItems.APPLE_LEAD.get());
+                        output.accept(ModItems.APPLE_SCHRABIDIUM.get());
+                        output.accept(ModItems.BALEFIRE_AND_HAM.get());
+                        output.accept(ModItems.BALEFIRE_SCRAMBLED.get());
+                        output.accept(ModItems.BATHWATER.get());
+                        output.accept(ModItems.BATHWATER_MK2.get());
+                        output.accept(ModItems.BDCL.get());
+                        output.accept(ModItems.BLACK_DIAMOND.get());
+                        output.accept(ModItems.BOAT_RUBBER.get());
+                        output.accept(ModItems.BOBMAZON.get());
+                        output.accept(ModItems.BOMB_CALLER.get());
+                        output.accept(ModItems.BOMB_WAFFLE.get());
+                        output.accept(ModItems.BOOK_GUIDE.get());
+                        output.accept(ModItems.BOOK_SECRET.get());
+                        output.accept(ModItems.BOTTLE2_EMPTY.get());
+                        output.accept(ModItems.BOTTLE2_FRITZ.get());
+                        output.accept(ModItems.BOTTLE2_KORL.get());
+                        output.accept(ModItems.BOTTLE_CHERRY.get());
+                        output.accept(ModItems.BOTTLE_EMPTY.get());
+                        output.accept(ModItems.BOTTLE_NUKA.get());
+                        output.accept(ModItems.BOTTLE_OPENER.get());
+                        output.accept(ModItems.BOTTLE_QUANTUM.get());
+                        output.accept(ModItems.BOTTLE_RAD.get());
+                        output.accept(ModItems.BOTTLE_SPARKLE.get());
+                        output.accept(ModItems.BOTTLED_CLOUD.get());
+                        output.accept(ModItems.CAN_BEPIS.get());
+                        output.accept(ModItems.CAN_BREEN.get());
+                        output.accept(ModItems.CAN_CREATURE.get());
+                        output.accept(ModItems.CAN_EMPTY.get());
+                        output.accept(ModItems.CAN_KEY.get());
+                        output.accept(ModItems.CAN_LUNA.get());
+                        output.accept(ModItems.CAN_MRSUGAR.get());
+                        output.accept(ModItems.CAN_MUG.get());
+                        output.accept(ModItems.CAN_OVERCHARGE.get());
+                        output.accept(ModItems.CAN_REDBOMB.get());
+                        output.accept(ModItems.CAN_SMART.get());
+                        output.accept(ModItems.CANTEEN_VODKA.get());
+                        output.accept(ModItems.CAP_FRITZ.get());
+                        output.accept(ModItems.CAP_KORL.get());
+                        output.accept(ModItems.CAP_NUKA.get());
+                        output.accept(ModItems.CAP_QUANTUM.get());
+                        output.accept(ModItems.CAP_RAD.get());
+                        output.accept(ModItems.CAP_SPARKLE.get());
+                        output.accept(ModItems.CAPE_GASMASK.get());
+                        output.accept(ModItems.CAPE_HIDDEN.get());
+                        output.accept(ModItems.CAPE_RADIATION.get());
+                        output.accept(ModItems.CAPE_SCHRABIDIUM.get());
+                        output.accept(ModItems.CART.get());
+                        output.accept(ModItems.CASING_BAG.get());
+                        output.accept(ModItems.CHEESE.get());
+                        output.accept(ModItems.CHOCOLATE.get());
+                        output.accept(ModItems.CHOCOLATE_MILK.get());
+                        output.accept(ModItems.CIGARETTE.get());
+                        output.accept(ModItems.COFFEE.get());
+                        output.accept(ModItems.COFFEE_RADIUM.get());
+                        output.accept(ModItems.COIN_CREEPER.get());
+                        output.accept(ModItems.COIN_MASKMAN.get());
+                        output.accept(ModItems.COIN_RADIATION.get());
+                        output.accept(ModItems.COIN_UFO.get());
+                        output.accept(ModItems.COIN_WORM.get());
+                        output.accept(ModItems.COLTAN_TOOL.get());
+                        output.accept(ModItems.CONTAINMENT_BOX.get());
+                        output.accept(ModItems.COTTON_CANDY.get());
+                        output.accept(ModItems.COUPLING_TOOL.get());
+                        output.accept(ModItems.CRACKPIPE.get());
+                        output.accept(ModItems.DEFINITELYFOOD.get());
+                        output.accept(ModItems.DIGAMMA_DIAGNOSTIC.get());
+                        output.accept(ModItems.DOSIMETER.get());
+                        output.accept(ModItems.DRONE.get());
+                        output.accept(ModItems.DRONE_LINKER.get());
+                        output.accept(ModItems.EGG_GLYPHID.get());
+                        output.accept(ModItems.EUPHEMIUM_KIT.get());
+                        output.accept(ModItems.FIVE_HTP.get());
+                        output.accept(ModItems.FLASK_INFUSION.get());
+                        output.accept(ModItems.FMN.get());
+                        output.accept(ModItems.FOODITEM.get());
+                        output.accept(ModItems.GEIGER_COUNTER.get());
+                        output.accept(ModItems.GLITCH.get());
+                        output.accept(ModItems.GLOWING_STEW.get());
+                        output.accept(ModItems.GLYPHID_MEAT.get());
+                        output.accept(ModItems.GLYPHID_MEAT_GRILLED.get());
+                        output.accept(ModItems.GUN_KIT_1.get());
+                        output.accept(ModItems.GUN_KIT_2.get());
+                        output.accept(ModItems.HAZMAT_GREY_KIT.get());
+                        output.accept(ModItems.HAZMAT_KIT.get());
+                        output.accept(ModItems.HAZMAT_RED_KIT.get());
+                        output.accept(ModItems.HEART_BOOSTER.get());
+                        output.accept(ModItems.HEART_CONTAINER.get());
+                        output.accept(ModItems.HEART_FAB.get());
+                        output.accept(ModItems.HEART_PIECE.get());
+                        output.accept(ModItems.INJECTOR_5HTP.get());
+                        output.accept(ModItems.INJECTOR_KNIFE.get());
+                        output.accept(ModItems.INK.get());
+                        output.accept(ModItems.JETPACK_TANK.get());
+                        output.accept(ModItems.KEY.get());
+                        output.accept(ModItems.KEY_FAKE.get());
+                        output.accept(ModItems.KEY_KIT.get());
+                        output.accept(ModItems.KIT_CUSTOM.get());
+                        output.accept(ModItems.LEGACY_TOOLBOX.get());
+                        output.accept(ModItems.LEMON.get());
+                        output.accept(ModItems.LINKER.get());
+                        output.accept(ModItems.LOOP_STEW.get());
+                        output.accept(ModItems.LOOPS.get());
+                        output.accept(ModItems.MARSHMALLOW.get());
+                        output.accept(ModItems.MED_BAG.get());
+                        output.accept(ModItems.MED_IPECAC.get());
+                        output.accept(ModItems.MED_PTSD.get());
+                        output.accept(ModItems.MED_SCHIZOPHRENIA.get());
+                        output.accept(ModItems.METEOR_REMOTE.get());
+                        output.accept(ModItems.MIRROR_TOOL.get());
+                        output.accept(ModItems.MORNING_GLORY.get());
+                        output.accept(ModItems.MUCHO_MANGO.get());
+                        output.accept(ModItems.NUGGET.get());
+                        output.accept(ModItems.NUKE_ADVANCED_KIT.get());
+                        output.accept(ModItems.NUKE_COMMERCIALLY_KIT.get());
+                        output.accept(ModItems.NUKE_ELECTRIC_KIT.get());
+                        output.accept(ModItems.NUKE_STARTER_KIT.get());
+                        output.accept(ModItems.OIL_DETECTOR.get());
+                        output.accept(ModItems.ORE_DENSITY_SCANNER.get());
+                        output.accept(ModItems.PADLOCK.get());
+                        output.accept(ModItems.PADLOCK_REINFORCED.get());
+                        output.accept(ModItems.PADLOCK_RUSTY.get());
+                        output.accept(ModItems.PANCAKE.get());
+                        output.accept(ModItems.PEAS.get());
+                        output.accept(ModItems.PILL_HERBAL.get());
+                        output.accept(ModItems.PILL_IODINE.get());
+                        output.accept(ModItems.PILL_RED.get());
+                        output.accept(ModItems.PIN.get());
+                        output.accept(ModItems.PLAN_C.get());
+                        output.accept(ModItems.PLASTIC_BAG.get());
+                        output.accept(ModItems.POLAROID.get());
+                        output.accept(ModItems.POLLUTION_DETECTOR.get());
+                        output.accept(ModItems.POWER_NET_TOOL.get());
+                        output.accept(ModItems.PUDDING.get());
+                        output.accept(ModItems.QUARTZ_PLUTONIUM.get());
+                        output.accept(ModItems.QUESADILLA.get());
+                        output.accept(ModItems.RADAR_LINKER.get());
+                        output.accept(ModItems.RADX.get());
+                        output.accept(ModItems.RBMK_TOOL.get());
+                        output.accept(ModItems.REACTOR_SENSOR.get());
+                        output.accept(ModItems.REBAR_PLACER.get());
+                        output.accept(ModItems.RING_PULL.get());
+                        output.accept(ModItems.ROD_OF_DISCORD.get());
+                        output.accept(ModItems.SCHNITZEL_VEGAN.get());
+                        output.accept(ModItems.SCRAP_PLASTIC.get());
+                        output.accept(ModItems.SCRUMPY.get());
+                        output.accept(ModItems.SERUM.get());
+                        output.accept(ModItems.SETTINGS_TOOL.get());
+                        output.accept(ModItems.SIOX.get());
+                        output.accept(ModItems.SPAWN_CHOPPER.get());
+                        output.accept(ModItems.SPAWN_DUCK.get());
+                        output.accept(ModItems.SPAWN_UFO.get());
+                        output.accept(ModItems.SPAWN_WORM.get());
+                        output.accept(ModItems.SPIDER_MILK.get());
+                        output.accept(ModItems.SPONGEBOB_MACARONI.get());
+                        output.accept(ModItems.STATIC_SANDWICH.get());
+                        output.accept(ModItems.STEALTH_BOY.get());
+                        output.accept(ModItems.STRUCTURE_CUSTOMMACHINE.get());
+                        output.accept(ModItems.SURVEY_SCANNER.get());
+                        output.accept(ModItems.SYRINGE_EMPTY.get());
+                        output.accept(ModItems.SYRINGE_METAL_EMPTY.get());
+                        output.accept(ModItems.SYRINGE_METAL_MEDX.get());
+                        output.accept(ModItems.SYRINGE_METAL_PSYCHO.get());
+                        output.accept(ModItems.SYRINGE_METAL_STIMPAK.get());
+                        output.accept(ModItems.SYRINGE_METAL_SUPER.get());
+                        output.accept(ModItems.SYRINGE_TAINT.get());
+                        output.accept(ModItems.TEM_FLAKES.get());
+                        output.accept(ModItems.TOOLBOX.get());
+                        output.accept(ModItems.TRAIN.get());
+                        output.accept(ModItems.TWINKIE.get());
+                        output.accept(ModItems.WAND.get());
+                        output.accept(ModItems.WAND_D.get());
+                        output.accept(ModItems.WAND_S.get());
+                        output.accept(ModItems.WD40.get());
+                        output.accept(ModItems.WILD_P.get());
+                        output.accept(ModItems.XANAX.get());
+                    })
+                    .build());
+
+    // ──────────────────────────────────────────────────────────────────────
+    // TEMPLATETAB  (7 items)
+    // ──────────────────────────────────────────────────────────────────────
+    public static final RegistryObject<CreativeModeTab> TEMPLATE_TAB =
+            TABS.register("templates", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("tab.hbm.templates"))
+                    .icon(() -> new ItemStack(ModItems.TEMPLATE_FOLDER.get()))
+                    .displayItems((params, output) -> {
+                        output.accept(ModItems.BLUEPRINT_FOLDER.get());
+                        output.accept(ModItems.BLUEPRINTS.get());
+                        output.accept(ModItems.CRUCIBLE_TEMPLATE.get());
+                        output.accept(ModItems.FLUID_DUCT.get());
+                        output.accept(ModItems.FLUID_IDENTIFIER_MULTI.get());
+                        output.accept(ModItems.SIREN_TRACK.get());
+                        output.accept(ModItems.TEMPLATE_FOLDER.get());
+                    })
+                    .build());
+
 }

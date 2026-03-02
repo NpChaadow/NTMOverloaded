@@ -2,6 +2,7 @@ package com.hbm.registry;
 
 import com.hbm.HBMMod;
 import com.hbm.blockentity.CreativeGeneratorBlockEntity;
+import com.hbm.blockentity.PipeBlockEntity;
 import com.hbm.blockentity.TestMachineBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -25,6 +26,14 @@ public class ModBlockEntities {
                     () -> BlockEntityType.Builder.of(
                             CreativeGeneratorBlockEntity::new,
                             ModBlocks.CREATIVE_GENERATOR.get()
+                    ).build(null)
+            );
+
+    public static final RegistryObject<BlockEntityType<PipeBlockEntity>> PIPE =
+            BLOCK_ENTITIES.register("pipe",
+                    () -> BlockEntityType.Builder.of(
+                            PipeBlockEntity::new,
+                            ModBlocks.PIPE.get()
                     ).build(null)
             );
 

@@ -1,5 +1,6 @@
 package com.hbm;
 
+import com.hbm.network.ModNetwork;
 import com.hbm.registry.*;
 
 import com.hbm.renderer.ObjGroupModelLoader;
@@ -34,6 +35,7 @@ public class HBMMod {
         ModCreativeTabs.TABS.register(modBus);
         ModRecipes.TYPES.register(modBus);
         ModRecipes.SERIALIZERS.register(modBus);
+        ModNetwork.register();
 
         // 🔹 Setup events
         modBus.addListener(this::commonSetup);

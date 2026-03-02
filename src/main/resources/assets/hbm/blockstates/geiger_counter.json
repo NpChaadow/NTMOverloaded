@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "hbm:item/geiger_counter" }
+  }
+}

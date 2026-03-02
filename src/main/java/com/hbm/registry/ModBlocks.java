@@ -77,9 +77,18 @@ public class ModBlocks {
             () -> new CableBlock(BlockBehaviour.Properties.of()
                     .strength(1.5f)
                     .requiresCorrectToolForDrops()
-                    .noOcclusion()
+                    .noOcclusion()                           // ← add this
+                    .isViewBlocking((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false)));
 
-            )
-    );
+
+    public static final RegistryObject<Block> PIPE = registerBlockWithoutItem("pipe",
+            () -> new CableBlock(BlockBehaviour.Properties.of()
+                    .strength(1.5f)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()                           // ← add this
+                    .isViewBlocking((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false)));
+
 
 }

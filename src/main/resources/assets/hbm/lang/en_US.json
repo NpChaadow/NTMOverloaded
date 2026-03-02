@@ -1,9 +1,13 @@
 {
+  "item.hbm.uranium_ingot": "Uranium Ingot",
   "item.hbm.test_item": "Test Item",
+  "item.hbm.geiger_counter": "Geiger Counter",
   "block.hbm.test_block": "Test Block",
   "block.hbm.test_machine": "Test Machine",
   "block.hbm.creative_generator":  "Creative Generator",
-  "block.hbm.cable":  "Cable",
+  "block.hbm.cable":  "Copper Cable",
+  "block.hbm.pipe": "Universal Fluid Pipe",
+  "block.hbm.geiger_counter": "Geiger Counter",
   "tab.hbm.blocks": "HBM Blocks",
   "tab.hbm.machines": "HBM Machines",
   "tab.hbm.parts": "HBM Parts",
@@ -13,5 +17,4 @@
   "tab.hbm.consumables": "HBM Consumables",
   "tab.hbm.control": "HBM Control",
   "tab.hbm.template": "HBM Templates"
-
 }

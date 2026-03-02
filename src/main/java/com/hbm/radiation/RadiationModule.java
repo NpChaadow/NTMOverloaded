@@ -1,6 +1,6 @@
-package com.hbm.modules;
+package com.hbm.radiation;
 
-import com.hbm.radiation.RadiationManager;
+import com.hbm.modules.IMachineModule;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
