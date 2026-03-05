@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:coke",
+    "hbm:lignite",
+    "hbm:briquette",
+    "hbm:rocket_fuel",
+    "hbm:solid_fuel",
+    "hbm:solid_fuel_bf",
+    "hbm:solid_fuel_presto",
+    "hbm:solid_fuel_presto_bf"
+  ]
+}

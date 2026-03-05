@@ -672,21 +672,6 @@ public class ModItems {
     public static final RegistryObject<Item> BROKEN_ITEM =
             ITEMS.register("broken_item", () -> new Item(new Item.Properties()));
 
-    public static final RegistryObject<Item> BUCKET_ACID =
-            ITEMS.register("bucket_acid", () -> new Item(new Item.Properties()));
-
-    public static final RegistryObject<Item> BUCKET_MUD =
-            ITEMS.register("bucket_mud", () -> new Item(new Item.Properties()));
-
-    public static final RegistryObject<Item> BUCKET_SCHRABIDIC_ACID =
-            ITEMS.register("bucket_schrabidic_acid", () -> new Item(new Item.Properties()));
-
-    public static final RegistryObject<Item> BUCKET_SULFURIC_ACID =
-            ITEMS.register("bucket_sulfuric_acid", () -> new Item(new Item.Properties()));
-
-    public static final RegistryObject<Item> BUCKET_TOXIC =
-            ITEMS.register("bucket_toxic", () -> new Item(new Item.Properties()));
-
     public static final RegistryObject<Item> BURNT_BARK =
             ITEMS.register("burnt_bark", () -> new Item(new Item.Properties()));
 
@@ -3572,9 +3557,6 @@ public class ModItems {
 
     public static final RegistryObject<Item> ORANGE8 =
             ITEMS.register("orange8", () -> new Item(new Item.Properties()));
-
-    public static final RegistryObject<Item> ORE_BEDROCK =
-            ITEMS.register("ore_bedrock", () -> new Item(new Item.Properties()));
 
     public static final RegistryObject<Item> ORE_BYPRODUCT = //BYPRODUCT OF VARIABLE PURITY AND QUANTITY, CAN BE TREATED AS A NUGGET, MIGHT REQUIRE SHREDDING OR ACIDIZING, DEPENDS ON THE TYPE =
             ITEMS.register("ore_byproduct", () -> new Item(new Item.Properties()));

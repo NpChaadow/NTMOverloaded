@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:ore_byproduct",
+    "hbm:ore_centrifuged",
+    "hbm:ore_cleaned",
+    "hbm:ore_deepcleaned",
+    "hbm:ore_density_scanner",
+    "hbm:ore_enriched",
+    "hbm:ore_nitrated",
+    "hbm:ore_nitrocrystalline",
+    "hbm:ore_purified",
+    "hbm:ore_seared",
+    "hbm:ore_separated"
+  ]
+}

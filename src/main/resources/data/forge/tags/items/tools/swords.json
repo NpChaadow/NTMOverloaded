@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:alloy_sword",
+    "hbm:big_sword",
+    "hbm:cmb_sword",
+    "hbm:cobalt_decorated_sword",
+    "hbm:cobalt_sword",
+    "hbm:desh_sword",
+    "hbm:dnt_sword",
+    "hbm:elec_sword",
+    "hbm:meteorite_sword",
+    "hbm:redstone_sword",
+    "hbm:schrabidium_sword",
+    "hbm:starmetal_sword",
+    "hbm:steel_sword",
+    "hbm:titanium_sword"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:bucket_acid",
+    "hbm:bucket_mud",
+    "hbm:bucket_schrabidic_acid",
+    "hbm:bucket_sulfuric_acid",
+    "hbm:bucket_toxic"
+  ]
+}

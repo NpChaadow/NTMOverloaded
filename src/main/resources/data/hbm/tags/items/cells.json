@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:cell_anti_schrabidium",
+    "hbm:cell_antimatter",
+    "hbm:cell_balefire",
+    "hbm:cell_deuterium",
+    "hbm:cell_empty",
+    "hbm:cell_puf6",
+    "hbm:cell_sas3",
+    "hbm:cell_tritium",
+    "hbm:cell_uf6"
+  ]
+}

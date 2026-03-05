@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:block_australium",
+    "hbm:block_combine_steel",
+    "hbm:block_dineutronium",
+    "hbm:block_dura_steel",
+    "hbm:block_euphemium",
+    "hbm:block_euphemium_cluster",
+    "hbm:block_magnetized_tungsten",
+    "hbm:block_schrabidium",
+    "hbm:block_schrabidium_cluster",
+    "hbm:block_schrabidium_fuel",
+    "hbm:block_solinium",
+    "hbm:block_starmetal",
+    "hbm:block_tcalloy",
+    "hbm:ore_australium",
+    "hbm:ore_gneiss_schrabidium",
+    "hbm:ore_nether_schrabidium",
+    "hbm:ore_schrabidium"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:pile_rod_boron",
+    "hbm:pile_rod_detector",
+    "hbm:pile_rod_lithium",
+    "hbm:pile_rod_plutonium",
+    "hbm:pile_rod_pu239",
+    "hbm:pile_rod_source",
+    "hbm:pile_rod_uranium",
+    "hbm:rod_dual",
+    "hbm:rod_dual_empty",
+    "hbm:rod_empty",
+    "hbm:rod_of_discord",
+    "hbm:rod_quad",
+    "hbm:rod_quad_empty",
+    "hbm:rod_zirnox",
+    "hbm:rod_zirnox_empty",
+    "hbm:rod_zirnox_les_fuel_depleted",
+    "hbm:rod_zirnox_mox_fuel_depleted",
+    "hbm:rod_zirnox_natural_uranium_fuel_depleted",
+    "hbm:rod_zirnox_plutonium_fuel_depleted",
+    "hbm:rod_zirnox_thorium_fuel_depleted",
+    "hbm:rod_zirnox_tritium",
+    "hbm:rod_zirnox_u233_fuel_depleted",
+    "hbm:rod_zirnox_u235_fuel_depleted",
+    "hbm:rod_zirnox_uranium_fuel_depleted",
+    "hbm:rod_zirnox_zfb_mox_depleted"
+  ]
+}

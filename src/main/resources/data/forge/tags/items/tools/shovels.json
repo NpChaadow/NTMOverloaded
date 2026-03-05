@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:alloy_shovel",
+    "hbm:cmb_shovel",
+    "hbm:cobalt_decorated_shovel",
+    "hbm:cobalt_shovel",
+    "hbm:desh_shovel",
+    "hbm:elec_shovel",
+    "hbm:schrabidium_shovel",
+    "hbm:starmetal_shovel",
+    "hbm:steel_shovel",
+    "hbm:titanium_shovel"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:wood_barrier",
+    "hbm:wood_structure"
+  ]
+}

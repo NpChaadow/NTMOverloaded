@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "hbm:asphalt",
+    "hbm:asphalt_light",
+    "hbm:gravel_diamond",
+    "hbm:gravel_obsidian",
+    "hbm:ore_oil_sand",
+    "hbm:reinforced_sand",
+    "hbm:sandbags"
+  ]
+}
